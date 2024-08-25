@@ -1,0 +1,19 @@
+/* styles.css or your CSS module */
+@keyframes MoveText {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.marquee {
+  position: relative;
+  overflow: hidden;
+}
+
+.marquee p {
+  display: inline-block;
+  animation: MoveText 10s linear infinite; /* Adjust the duration as needed */
+}

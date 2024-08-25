@@ -44,7 +44,10 @@ const Navbar = () => {
               />
             </div>
             <div className=" hidden   md:flex  lg:flex ">
-              <Menu mode="horizontal" className="flex  lg:gap-8  lg:text-[18px]">
+              <Menu
+                mode="horizontal"
+                className="flex  lg:gap-8  lg:text-[18px]"
+              >
                 <Menu.Item>Home</Menu.Item>
                 <Menu.Item>About Us</Menu.Item>
                 <Menu.Item>Dashboard</Menu.Item>
@@ -58,7 +61,6 @@ const Navbar = () => {
               <RxHamburgerMenu className="text-2xl" onClick={showDrawer} />
 
               <Drawer
-                title="Basic Drawer"
                 placement={"top"}
                 closable={false}
                 onClose={onClose}
@@ -67,7 +69,8 @@ const Navbar = () => {
                 className=" mt-12  "
                 key={placement}
               >
-                <Menu mode="vertical" className=" gap-8  text-[18px]">
+                <Menu mode="vertical" className=" gap-8  p-0  text-[18px]" >
+
                   <Menu.Item>Home</Menu.Item>
                   <Menu.Item>About Us</Menu.Item>
                   <Menu.Item>Dashboard</Menu.Item>

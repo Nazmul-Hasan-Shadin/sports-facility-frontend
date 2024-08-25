@@ -5,6 +5,6 @@
 .ant-menu-item-selected {
   color: #00725a !important;
 }
-/* .ant-menu-item-active {
-    border-bottom: 3px solid #00725A;
-} */
+.ant-drawer-body{
+    padding: 0 !important;
+}

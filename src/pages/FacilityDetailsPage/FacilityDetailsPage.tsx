@@ -15,24 +15,36 @@ const { Title, Text } = Typography;
 
 import type { CalendarProps } from "antd";
 import type { Dayjs } from "dayjs";
+import { useCheckFacilityAvailabilityQuery } from "../../redux/feature/facillity/facility.auth.api";
 
 const FacilityDetailsPage = () => {
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const { facilityId } = useParams();
 
-  const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>) => {
-    const selectedValue = value.format("YYYY-MM-DD");
+  // console.log(facilityId, selectedDate,'iam both');
 
-    setSelectedDate(selectedValue);
+  const dataParams = {
+    date: selectedDate,
+    facility: facilityId,
+  };
 
-    
+  const { data, refetch } = useCheckFacilityAvailabilityQuery(dataParams, {
+    skip: !selectedDate,
+  });
+
+  const onPanelChange = async (
+    value: Dayjs,
+    mode: CalendarProps<Dayjs>["mode"]
+  ) => {
+    const formattedDate = value.format("YYYY-MM-DD");
+    setSelectedDate(formattedDate);
   };
 
   return (
     <div className="p-5 ">
       <Row gutter={16}>
         {/* left side items */}
-        <Col className="border-red-500" xs={24} md={16}>
+        <Col  xs={24} md={16}>
           {/* rating and review card */}
           <Card>
             <div>
@@ -55,7 +67,7 @@ const FacilityDetailsPage = () => {
             <img
               src="https://via.placeholder.com/600x400"
               alt="Soccer World"
-              style={{ width: "100%", marginTop: "20px" }}
+              style={{ width: "100%", marginTop: "20px", height: "390px" }}
             />
           </Card>
         </Col>
@@ -66,11 +78,11 @@ const FacilityDetailsPage = () => {
               <Title level={4}>Book a Filed on Soccer World</Title>
               <Text>Select date and duration to show available slots</Text>
             </div>
-            <div className="w-[300px]">
+            <div className="w-[300px] ">
               <Calendar
-                onSelect={onPanelChange}
+                onChange={onPanelChange}
                 fullscreen={false}
-                className="mt-10"
+                className="mt-10 "
               />
             </div>
 
@@ -92,6 +104,64 @@ const FacilityDetailsPage = () => {
               </Button>
             </div>
           </Card>
+        </Col>
+
+        <Col xs={24} md={24}>
+          <Title className="text-center" level={3}> Available Time</Title>
+          <div className="space-y-4">
+            <Row
+             
+              justify={"center"}
+              align={"middle"}
+              gutter={[22, 0]}
+            >
+              <Col span={3}>
+                <Button type="primary" className="bg-secondary">
+                  9:00 am - 10:pm
+                </Button>
+              </Col>
+              <Col span={3}>
+                <Button type="primary" className="bg-secondary">
+                  9:00 am - 10:pm
+                </Button>
+              </Col>
+
+              <Col span={3}>
+                <Button type="primary" className="bg-secondary">
+                  9:00 am - 10:pm
+                </Button>
+              </Col>
+              <Col span={3}>
+                <Button type="primary" className="bg-secondary">
+                  9:00 am - 10:pm
+                </Button>
+              </Col>
+              <Col span={3}>
+                <Button type="primary" className="bg-secondary">
+                  9:00 am - 10:pm
+                </Button>
+              </Col>
+            </Row>
+
+            <Row gutter={[22, 0]} justify={"center"}>
+              <Col span={3}>
+                <Button type="primary" className="bg-secondary">
+                  9:00 am - 10:pm
+                </Button>
+              </Col>
+              <Col span={3}>
+                <Button type="primary" className="bg-secondary">
+                  9:00 am - 10:pm
+                </Button>
+              </Col>
+
+              <Col span={3}>
+                <Button type="primary" className="bg-secondary">
+                  9:00 am - 10:pm
+                </Button>
+              </Col>
+            </Row>
+          </div>
         </Col>
       </Row>
     </div>

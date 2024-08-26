@@ -48,7 +48,7 @@ const Navbar = () => {
                 mode="horizontal"
                 className="flex  lg:gap-8  lg:text-[18px]"
               >
-                <Menu.Item>Home</Menu.Item>
+                <Menu.Item >Home</Menu.Item>
                 <Menu.Item>About Us</Menu.Item>
                 <Menu.Item>Dashboard</Menu.Item>
                 <Menu.Item>Home</Menu.Item>

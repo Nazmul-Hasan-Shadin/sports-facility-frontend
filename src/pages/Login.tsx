@@ -3,15 +3,47 @@ import SFInput from "../components/form/SFInput/SFinput";
 import SFform from "../components/form/SFform/SFform";
 import { Button, Col, Divider, Form, Row, Space } from "antd";
 import { Typography } from "antd";
-import { calc } from "antd/es/theme/internal";
+
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { IoLogoFacebook } from "react-icons/io5";
+import { useLoginMutation } from "../redux/feature/auth/authApi";
+import { toast } from "sonner";
+import { VerifyToken } from "../utils/VerifyToken";
+import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { setUser } from "../redux/feature/auth/authSlice";
+import { useNavigate } from "react-router-dom";
 const { Title, Text } = Typography;
 
 const Login = () => {
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
+   const navigate=useNavigate()
+  const [login] = useLoginMutation();
+  const dispatch= useAppDispatch()
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const userInfo = {
+      email: data.email,
+      password: data.password,
+    };
+
+    try {
+      const res = await login(userInfo);
+      console.log(res.data);
+
+      
+        
+      const verifyToken=VerifyToken(res?.data.token) 
+       dispatch(setUser({user:verifyToken,token:res.data.token}))
+       if (res.data.success) {
+        toast.success('Logged in successful');
+        navigate('/')
+       }
+      
+       
+    } catch (error: any) {
+      console.log(error);
+
+      toast.error(error.message);
+    }
   };
   return (
     <Row
@@ -66,8 +98,8 @@ const Login = () => {
                 </Button>
               </Form.Item>
             </Col>
-            <Col span={24} >
-            <Divider style={{ marginTop: "-18px" }}>sign up</Divider>
+            <Col span={24}>
+              <Divider style={{ marginTop: "-18px" }}>sign up</Divider>
               <Divider style={{ marginTop: "-0px" }}>or</Divider>
               <div className="flex justify-center ">
                 <Space align="center" className="text-2xl" size={"large"}>

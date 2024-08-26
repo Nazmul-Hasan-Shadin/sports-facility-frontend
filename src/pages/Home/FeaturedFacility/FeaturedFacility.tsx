@@ -1,24 +1,29 @@
-import { Card } from "antd";
-import React from "react";
+import { Card, Col } from "antd";
 
-const FeaturedFacility = () => {
+
+const FeaturedFacility = ({facility}) => {
+  const {name,description}=facility;
+  
+   console.log(facility);
+   
   return (
-    <Card
-      cover={
-        <img
-          alt="example"
-          src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-        />
-      }
-    >
-      <Card.Meta
-        title={"Iam title "}
-        description={
-          "Swimingo folo with goog and cheap price hurry up or you will miss it . Quick bor i need also maony"
+    <Col span={24} md={8} lg={6}>
+      <Card
+        cover={
+          <img style={{width:'300', height:'300'}}
+            alt="example"
+            src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+          />
         }
-      ></Card.Meta>
-      
-    </Card>
+      >
+        <Card.Meta
+          title={name}
+          description={
+            description
+          }
+        ></Card.Meta>
+      </Card>
+    </Col>
   );
 };
 

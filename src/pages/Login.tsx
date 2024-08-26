@@ -16,9 +16,9 @@ import { useNavigate } from "react-router-dom";
 const { Title, Text } = Typography;
 
 const Login = () => {
-   const navigate=useNavigate()
+  const navigate = useNavigate();
   const [login] = useLoginMutation();
-  const dispatch= useAppDispatch()
+  const dispatch = useAppDispatch();
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const userInfo = {
       email: data.email,
@@ -29,16 +29,12 @@ const Login = () => {
       const res = await login(userInfo);
       console.log(res.data);
 
-      
-        
-      const verifyToken=VerifyToken(res?.data.token) 
-       dispatch(setUser({user:verifyToken,token:res.data.token}))
-       if (res.data.success) {
-        toast.success('Logged in successful');
-        navigate('/')
-       }
-      
-       
+      const verifyToken = VerifyToken(res?.data.token);
+      dispatch(setUser({ user: verifyToken, token: res.data.token }));
+      if (res.data.success) {
+        toast.success("Logged in successful");
+        navigate("/");
+      }
     } catch (error: any) {
       console.log(error);
 

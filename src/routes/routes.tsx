@@ -4,6 +4,7 @@ import  Login from '../pages/Login'
 import MainLayout from "../components/layout/MainLayout";
 import Home from "../pages/Home/Home/Home";
 import Register from "../pages/Register";
+import FacilityDetailsPage from "../pages/FacilityDetailsPage/FacilityDetailsPage";
 const router = createBrowserRouter([
     {
       path: "/",
@@ -19,6 +20,12 @@ const router = createBrowserRouter([
           element:<Login/>
          
         },
+        {
+          path: "facility/:facilityId",
+          element:<FacilityDetailsPage/>
+         
+        },
+        
       ]
      
     },

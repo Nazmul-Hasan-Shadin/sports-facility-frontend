@@ -9,14 +9,31 @@ type TSidebarItem = {
 };
 
 // Public Sidebar Generator
-export const publicSidebarGenerator = (items: TUserPath[],role) => {
+export const publicSidebarGenerator = (items: TUserPath[],role:string) => {
     const SideBarItems = items.reduce((acc: TSidebarItem[], item) => {
         if (item.path && item.element) {
             acc.push({
                 key: item.path,
-                label: <NavLink to={role? `${role}/${item.path}` :item.path}>{item.name}</NavLink>,
+                label: <NavLink to={role? `/${role}/${item.path}` :item.path}>{item.name}</NavLink>,
             });
         }
+
+        if (item.children) {
+            acc.push({
+              key: item.name,
+              label: item.name,
+              children: item.children.map((child) => {
+                if (child.name) {
+                  return {
+                    key: child.name,
+                    label: (
+                      <NavLink to={`/${role}/${child.path}`}>{child.name}</NavLink>
+                    ),
+                  };
+                }
+              }),
+            }) }
+
 
         return acc;
     }, []);

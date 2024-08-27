@@ -5,7 +5,8 @@ import { authenticUserRoutes, userPaths } from "./route.user";
 import MainLayout from "../components/layout/MainLayout";
 import DashboardLayout from "../components/layout/DashboardLayout";
 import Bookings from "../pages/users/Bookings/Bookings";
-import DashboardHome from "../pages/users/Home/DashboardHome";
+import DashboardHome from "../pages/users/Dashboard/DashboardHome";
+import { publicSidebarGenerator } from "../utils/topbarGenerator";
 
 const router = createBrowserRouter([
   {
@@ -14,18 +15,9 @@ const router = createBrowserRouter([
     children: routeGenerator(userPaths),
   },
   {
-    path: "/dashboard",
+    path: "/user",
     element: <DashboardLayout />,
-    children: [
-      {
-        path: "bookings",
-        element: <Bookings />,
-      },
-      {
-        path:'user/home',
-       element:<DashboardHome></DashboardHome>
-      }
-    ],
+    children:routeGenerator(authenticUserRoutes)
   },
 ]);
 

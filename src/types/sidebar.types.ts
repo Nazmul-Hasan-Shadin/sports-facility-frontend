@@ -11,4 +11,11 @@ export type TRoute = {
     path: string;
     element: ReactNode;
   };
+
+  export type TUser={
+    email:string,
+    iat:number,
+    role:string,
+    exp:number
+  }
   

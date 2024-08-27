@@ -8,7 +8,7 @@ import {
   Space,
   Typography,
 } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaFootball, FaLocationCrosshairs } from "react-icons/fa6";
 import { useParams } from "react-router-dom";
 const { Title, Text } = Typography;
@@ -28,9 +28,21 @@ const FacilityDetailsPage = () => {
     facility: facilityId,
   };
 
-  const { data, refetch } = useCheckFacilityAvailabilityQuery(dataParams, {
+  const {
+    data: availableSlot,
+    isLoading,
+    refetch,
+  } = useCheckFacilityAvailabilityQuery(dataParams, {
     skip: !selectedDate,
   });
+
+  if (isLoading) {
+    return <h2>loading</h2>;
+  }
+
+
+
+  console.log(availableSlot?.data);
 
   const onPanelChange = async (
     value: Dayjs,
@@ -38,13 +50,14 @@ const FacilityDetailsPage = () => {
   ) => {
     const formattedDate = value.format("YYYY-MM-DD");
     setSelectedDate(formattedDate);
+   
   };
 
   return (
     <div className="p-5 ">
       <Row gutter={16}>
         {/* left side items */}
-        <Col  xs={24} md={16}>
+        <Col xs={24} md={16}>
           {/* rating and review card */}
           <Card>
             <div>
@@ -107,9 +120,12 @@ const FacilityDetailsPage = () => {
         </Col>
 
         <Col xs={24} md={24}>
-          <Title className="text-center" level={3}> Available Time</Title>
+          <Title className="text-center" level={3}>
+            {" "}
+            Available Time
+          </Title>
           <div className="space-y-4">
-            <Row
+            {/* <Row
              
               justify={"center"}
               align={"middle"}
@@ -160,7 +176,21 @@ const FacilityDetailsPage = () => {
                   9:00 am - 10:pm
                 </Button>
               </Col>
-            </Row>
+            </Row> */}
+
+            {availableSlot?.data && availableSlot.data.length > 0 ? (
+              <Row justify="center" align="middle" gutter={[22, 0]}>
+                {availableSlot.data?.map((slot) => (
+                  <Col span={3} key={slot?._id}>
+                    <Button type="primary" className="bg-secondary">
+                      {`${slot.startTime} - ${slot.endTime}`}
+                    </Button>
+                  </Col>
+                ))}
+              </Row>
+            ) : (
+              <Text>No available slots for the selected date.</Text>
+            )}
           </div>
         </Col>
       </Row>

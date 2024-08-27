@@ -1,43 +1,32 @@
 import { createBrowserRouter } from "react-router-dom";
-import App from "../App";
-import  Login from '../pages/Login'
+
+import { routeGenerator } from "../utils/routeGenerator";
+import { authenticUserRoutes, userPaths } from "./route.user";
 import MainLayout from "../components/layout/MainLayout";
-import Home from "../pages/Home/Home/Home";
-import Register from "../pages/Register";
-import FacilityDetailsPage from "../pages/FacilityDetailsPage/FacilityDetailsPage";
+import DashboardLayout from "../components/layout/DashboardLayout";
+import Bookings from "../pages/users/Bookings/Bookings";
+import DashboardHome from "../pages/users/Home/DashboardHome";
+
 const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <MainLayout />,
-      children:[
-        {
-          path: "/",
-          element:<Home/>
-         
-        },
-        {
-          path: "login",
-          element:<Login/>
-         
-        },
-        {
-          path: "facility/:facilityId",
-          element:<FacilityDetailsPage/>
-         
-        },
-        
-      ]
-     
-    },
-    {
-      path: "/register",
-      element:<Register/>
-     
-    },
-    
+  {
+    path: "/",
+    element: <MainLayout />,
+    children: routeGenerator(userPaths),
+  },
+  {
+    path: "/dashboard",
+    element: <DashboardLayout />,
+    children: [
+      {
+        path: "bookings",
+        element: <Bookings />,
+      },
+      {
+        path:'user/home',
+       element:<DashboardHome></DashboardHome>
+      }
+    ],
+  },
+]);
 
-  ]);
-
-
-  export default router
-  
+export default router;

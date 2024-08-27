@@ -4,18 +4,31 @@ import { useState } from "react";
 import "./Navbar.css";
 import { FaHamburger } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { NavLink } from "react-router-dom";
+
+import { userPaths } from "../../routes/route.user";
+import { publicSidebarGenerator } from "../../utils/topbarGenerator";
 const items: MenuProps["items"] = [
   {
-    key: "1",
-    label: (
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href="https://www.antgroup.com"
-      >
-        1st menu item
-      </a>
-    ),
+    key: "Home",
+    label: <NavLink to={"/"}>Home</NavLink>,
+  },
+  {
+    key: "Dashboard",
+    label: <NavLink to={"/dashboard"}>Dashboard</NavLink>,
+  },
+  {
+    key: "About",
+    label: "About",
+  },
+
+  {
+    key: "Login",
+    label: <NavLink to={"/login"}>Login</NavLink>,
+  },
+  {
+    key: "Register",
+    label: <NavLink to={"/login"}>Login</NavLink>,
   },
 ];
 
@@ -43,8 +56,8 @@ const Navbar = () => {
                 alt=""
               />
             </div>
-            <div className=" hidden   md:flex  lg:flex ">
-              <Menu
+            <div className="   hidden md:flex">
+              {/* <Menu
                 mode="horizontal"
                 className="flex  lg:gap-8  lg:text-[18px]"
               >
@@ -53,7 +66,13 @@ const Navbar = () => {
                 <Menu.Item>Dashboard</Menu.Item>
                 <Menu.Item>Home</Menu.Item>
                 <Menu.Item>product</Menu.Item>
-              </Menu>
+              </Menu> */}
+
+              <Menu
+                className="flex lg:gap-8 lg:text-[18px]"
+                mode="horizontal"
+                items={publicSidebarGenerator(userPaths)}
+              />
             </div>
             {/* for small device hide navigation */}
 
@@ -69,8 +88,7 @@ const Navbar = () => {
                 className=" mt-12  "
                 key={placement}
               >
-                <Menu mode="vertical" className=" gap-8  p-0  text-[18px]" >
-
+                <Menu mode="vertical" className=" gap-8  p-0  text-[18px]">
                   <Menu.Item>Home</Menu.Item>
                   <Menu.Item>About Us</Menu.Item>
                   <Menu.Item>Dashboard</Menu.Item>

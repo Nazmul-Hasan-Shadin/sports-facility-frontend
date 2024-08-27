@@ -26,11 +26,11 @@ const Login = () => {
     };
 
     try {
-      const res = await login(userInfo);
-      console.log(res.data);
+      const res = await login(userInfo).unwrap();
+      console.log(res,'iam token and response');
 
-      const verifyToken = VerifyToken(res?.data.token);
-      dispatch(setUser({ user: verifyToken, token: res.data.token }));
+      const verifyToken = VerifyToken(res?.token)
+      dispatch(setUser({ user: verifyToken, token: res?.token }));
       if (res.data.success) {
         toast.success("Logged in successful");
         navigate("/");

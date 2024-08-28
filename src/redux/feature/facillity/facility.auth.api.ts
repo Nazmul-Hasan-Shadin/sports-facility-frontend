@@ -38,9 +38,22 @@ const facilityApi = baseApi.injectEndpoints({
         },
       }),
 
+      createFacility: builder.mutation({
+        query: (data) => {
+        
+         
+  
+          return {
+            url: `/facility`,
+            method: "POST",
+            body:data
+          };
+        },
+      }),
+
       updateFacility: builder.mutation({
         query: (data) => {
-         console.log(data,'iam insdide retk query');
+        
          
   
           return {
@@ -65,4 +78,4 @@ const facilityApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetAllFacilityQuery,useCheckFacilityAvailabilityQuery,useUpdateFacilityMutation,useDeleteFacilityMutation ,useGetSingleFacilityQuery} = facilityApi;
+export const { useGetAllFacilityQuery,useCheckFacilityAvailabilityQuery,useUpdateFacilityMutation,useDeleteFacilityMutation ,useGetSingleFacilityQuery,useCreateFacilityMutation} = facilityApi;

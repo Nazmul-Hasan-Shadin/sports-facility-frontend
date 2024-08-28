@@ -33,7 +33,7 @@ export const userPaths = [
     element: <Bookings />,
   },
 
-  {name: "Bookings",
+  {name: "Register",
     path: "/register",
     element: <Register />,
   },

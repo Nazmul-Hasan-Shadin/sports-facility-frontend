@@ -10,9 +10,16 @@ const authApi=baseApi.injectEndpoints({
             method:'GET',
             body:userInfo
         })
+    }),
+    getAllBookings:builder.query({
+        query:()=>({
+            url:'/bookings',
+            method:'GET',
+           
+        })
     })
     })
 })
 
 
-export const {useGetUsersBookinsQuery}=authApi
+export const {useGetUsersBookinsQuery,useGetAllBookingsQuery}=authApi

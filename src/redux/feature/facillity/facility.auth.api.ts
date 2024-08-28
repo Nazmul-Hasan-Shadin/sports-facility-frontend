@@ -52,14 +52,15 @@ const facilityApi = baseApi.injectEndpoints({
       }),
 
       updateFacility: builder.mutation({
-        query: (data) => {
-        
+        query: ({id,data}) => {
+         console.log(id,data);
+         
          
   
           return {
-            url: `/facility/${data.facilityId}`,
+            url: `/facility/${id}`,
             method: "PUT",
-            body:data.data
+            body:data
           };
         },
       }),

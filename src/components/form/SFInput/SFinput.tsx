@@ -7,12 +7,14 @@ type TSFInputProps = {
   id: string;
   label: string;
   className?:string;
+  defaultValue?:any
 };
 
-const SFInput = ({ name, type, label,className }: TSFInputProps) => {
+const SFInput = ({ name, type, label,className ,defaultValue}: TSFInputProps) => {
   // const { control } = useFormContext();
   return (
-    <Controller
+    <Controller 
+    defaultValue={defaultValue} 
       name={name}
       render={({ field }) => (
         <Form.Item labelCol={{ span: 24 }} layout="vertical" label={label}>

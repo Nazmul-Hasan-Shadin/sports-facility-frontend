@@ -4,6 +4,7 @@ import App from "../../App";
 import TopNavbar from "../ui/TopNavbar";
 import { ConfigProvider } from "antd";
 import Navbar from "../ui/Navbar";
+import Banner from "../ui/Banner/Banner";
 
 const MainLayout = () => {
   return (
@@ -20,6 +21,8 @@ const MainLayout = () => {
       >
         <Navbar />
       </ConfigProvider>
+
+  
 
       <Outlet />
     </div>

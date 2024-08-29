@@ -4,14 +4,54 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import banner from "../../../assets/images/Banner/amanwithfootbal.png";
-import { Button, GetProps, Input } from "antd";
+import { AutoComplete, AutoCompleteProps, Button, GetProps, Input } from "antd";
 import "./module.banner.css";
+import { useEffect, useState } from "react";
+import { useLazyGetAllFacilityQuery } from "../../../redux/feature/facillity/facility.auth.api";
+import { Link, useNavigate } from "react-router-dom";
 type SearchProps = GetProps<typeof Input.Search>;
 
 const Banner = () => {
-  const onSearch: SearchProps["onSearch"] = (value, _e, info) =>
-    console.log(info?.source, value);
+  const navigate = useNavigate();
+  const [getFacilities, { data: featuredFacility, isLoading, isFetching }] =
+    useLazyGetAllFacilityQuery();
+
+  console.log(featuredFacility);
+
   const { Search } = Input;
+
+  const [options, setOptions] = useState<AutoCompleteProps["options"]>([]);
+
+  const handleSearch = (value) => {
+    if (value) {
+      getFacilities({ searchTerm: value, limit: 10, page: 1 });
+    } else {
+      setOptions([]);
+    }
+  };
+
+  const onSearch: SearchProps["onSearch"] = (value) => {
+    navigate("/offered", { state: { searchTerm: value } });
+  };
+
+  useEffect(() => {
+    if (featuredFacility?.data) {
+      const results = featuredFacility.data.map((facility) => ({
+        value: facility.name,
+        label: (
+          <div className="flex justify-between">
+            <Link to={`/facility/${facility._id}`}>
+              <span>{facility.name}</span>
+            </Link>
+          </div>
+        ),
+      }));
+      setOptions(results);
+    }
+  }, [featuredFacility]);
+  const onSelect = (value: string) => {
+    console.log("onSelect", value);
+  };
 
   return (
     <div className="pt-4">
@@ -26,26 +66,33 @@ const Banner = () => {
                 <h2 className="text-white text-xl md:text-2xl lg:text-3xl font-bold mb-5 ">
                   Booking Sport Venues Has Never Been Easier
                 </h2>
-                <Search
-                  placeholder="input search text"
-                  allowClear
-                  enterButton="Search"
+                <AutoComplete
+                  popupMatchSelectWidth={252}
+                  style={{ width: 300 }}
+                  options={options}
+                  onSelect={onSelect}
+                  onSearch={handleSearch}
                   size="large"
-                  onSearch={onSearch}
-                  style={{
-                  
-                    paddingBottom: "10px",
-                    color: "#FFA500",
-                  }}
-                  
-                  className="w-[300px]  md:w-[400px]"
-                />
+                >
+                  <Search
+                    placeholder="input search text"
+                    allowClear
+                    enterButton="Search"
+                    size="large"
+                    onSearch={onSearch}
+                    style={{
+                      paddingBottom: "10px",
+                      color: "#FFA500",
+                    }}
+                    className="w-[300px]  md:w-[400px]"
+                  />
+                </AutoComplete>
 
                 <Button
                   size="large"
                   style={{
                     backgroundColor: "#00725A", // Primary color for button
-                    color: "#FFFFFF", // White text for contrast
+                    color: "#FFFFFF",
                     borderColor: "#00725A",
                     width: "150px",
                   }}
@@ -56,7 +103,11 @@ const Banner = () => {
               </div>
             </div>
 
-            <img  className=" w-full h-[340px] object-cover md:object-fit md:h-full " src={banner} alt="A man who kicking the footbal " />
+            <img
+              className=" w-full h-[340px] object-cover md:object-fit md:h-full "
+              src={banner}
+              alt="A man who kicking the footbal "
+            />
           </div>
         </SwiperSlide>
         <SwiperSlide>Slide 2</SwiperSlide>

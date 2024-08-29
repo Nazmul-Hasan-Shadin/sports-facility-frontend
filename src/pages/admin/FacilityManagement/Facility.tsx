@@ -3,7 +3,7 @@ import { Button, Col, Form, Modal, Popconfirm, Row, Space, Table } from "antd";
 import type { TableColumnsType } from "antd";
 import { useGetUsersBookinsQuery } from "../../../redux/feature/Bookings/auth.bookings.api";
 import {
-  useGetAllFacilityQuery,
+  useLazyGetAllFacilityQuery,
   useUpdateFacilityMutation,
 } from "../../../redux/feature/facillity/facility.auth.api";
 import Title from "antd/es/typography/Title";
@@ -23,7 +23,6 @@ interface DataType {
 }
 
 const Facility: React.FC = () => {
-
   const [selectedFacility, setSelectedFacility] = useState<DataType | null>(
     null
   );
@@ -36,7 +35,7 @@ const Facility: React.FC = () => {
       dataIndex: "name",
       key: "name",
       width: 150,
-      render: (text) => <a style={{ color: "#00725A" }}>{text}</a>, // Primary color for name links
+      render: (text) => <a style={{ color: "#00725A" }}>{text}</a>,
     },
 
     {
@@ -63,7 +62,7 @@ const Facility: React.FC = () => {
           <Space className="flex items-center gap-5">
             <Popconfirm
               title="Are you sure you want to delete this item?"
-              onConfirm={() => console.log('u')}
+              onConfirm={() => console.log("u")}
             >
               <FaTrash style={{ color: "orange" }} className="text-xl" />
             </Popconfirm>
@@ -121,53 +120,82 @@ const Facility: React.FC = () => {
 export default Facility;
 
 export const FacilityEditModal = ({ isOpen, onOk, onCancel, facilityData }) => {
-    console.log('inside modal',facilityData.key);
-    
- const [updateFacility]=useUpdateFacilityMutation()
-  const onSubmit:SubmitHandler<FieldValues> = async (data) => {
-       
-    const facilityInfo={
-        data:{
-            ...data, id:facilityData._id,pricePerHour:Number(data.pricePerHour)
-        },
-        id:facilityData?.key
-    }
+  console.log("inside modal", facilityData.key);
+
+  const [updateFacility] = useUpdateFacilityMutation();
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const facilityInfo = {
+      data: {
+        ...data,
+        id: facilityData._id,
+        pricePerHour: Number(data.pricePerHour),
+      },
+      id: facilityData?.key,
+    };
     console.log(facilityInfo);
-    
-     
-      const res= await updateFacility(facilityInfo)
-      if (res.data.success) {
-        toast.success('Facility has updated')
-      }
+
+    const res = await updateFacility(facilityInfo);
+    if (res.data.success) {
+      toast.success("Facility has updated");
+    }
   };
-
-
-
 
   return (
     <div>
-     
-      <Modal
-        title="Basic Modal"
-        open={isOpen}
-        onOk={onOk}
-        onCancel={onCancel}
-      >
-         <Row justify={'center'}>
-      <Col lg={24}         className="p-8 shadow-lg rounded-lg bg-white"
-        sm={23}
-        md={14}>
-        <Title level={3}> Create Facility</Title>
-       <SFform onSubmit={onSubmit}>
-      <Form.Item>  <SFInput defaultValue={facilityData?.name} type="text" label="Facility Name" id="Name" name="name"/></Form.Item>
-      <Form.Item>  <SFInput  defaultValue={facilityData?.description} type="text" label="Description" id="Name" name="description"/></Form.Item>
-        <Form.Item> <SFInput   defaultValue={facilityData?.pricePerHour} type="number" label="PricePerHour" id="PricePerHour" name="pricePerHour"/></Form.Item>
-       <Form.Item> <SFInput  defaultValue={facilityData?.location} type="text" label="Location" id="location" name="location"/></Form.Item>
-       <Button htmlType="submit"> Create Facility </Button>
-
-       </SFform>
-      </Col>
-    </Row>
+      <Modal title="Basic Modal" open={isOpen} onOk={onOk} onCancel={onCancel}>
+        <Row justify={"center"}>
+          <Col
+            lg={24}
+            className="p-8 shadow-lg rounded-lg bg-white"
+            sm={23}
+            md={14}
+          >
+            <Title level={3}> Create Facility</Title>
+            <SFform onSubmit={onSubmit}>
+              <Form.Item>
+                {" "}
+                <SFInput
+                  defaultValue={facilityData?.name}
+                  type="text"
+                  label="Facility Name"
+                  id="Name"
+                  name="name"
+                />
+              </Form.Item>
+              <Form.Item>
+                {" "}
+                <SFInput
+                  defaultValue={facilityData?.description}
+                  type="text"
+                  label="Description"
+                  id="Name"
+                  name="description"
+                />
+              </Form.Item>
+              <Form.Item>
+                {" "}
+                <SFInput
+                  defaultValue={facilityData?.pricePerHour}
+                  type="number"
+                  label="PricePerHour"
+                  id="PricePerHour"
+                  name="pricePerHour"
+                />
+              </Form.Item>
+              <Form.Item>
+                {" "}
+                <SFInput
+                  defaultValue={facilityData?.location}
+                  type="text"
+                  label="Location"
+                  id="location"
+                  name="location"
+                />
+              </Form.Item>
+              <Button htmlType="submit"> Create Facility </Button>
+            </SFform>
+          </Col>
+        </Row>
       </Modal>
     </div>
   );

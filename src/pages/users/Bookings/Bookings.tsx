@@ -12,7 +12,7 @@ interface DataType {
 
 const columns: TableColumnsType<DataType> = [
   {
-    title: "Name",
+  title: "Name",
     dataIndex: "name",
     key: "name",
     width: 150,

@@ -3,12 +3,12 @@ import baseApi from "../../api/baseApi";
 const facilityApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllFacility: builder.query({
-      query: (args) => {
-        console.log(args, "iam args");
+      query: ({searchTerm,limit,page,sort}) => {
 
         return {
           url: "/facility",
           method: "GET",
+          params:{searchTerm,limit,page,sort}
         };
       },
     }),
@@ -66,8 +66,7 @@ const facilityApi = baseApi.injectEndpoints({
       }),
       deleteFacility: builder.mutation({
         query: (facilityId) => {
-         console.log(data,'iam insdide deleted query');
-         
+      
   
           return {
             url: `/facility/${facilityId}`,
@@ -79,4 +78,4 @@ const facilityApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetAllFacilityQuery,useCheckFacilityAvailabilityQuery,useUpdateFacilityMutation,useDeleteFacilityMutation ,useGetSingleFacilityQuery,useCreateFacilityMutation} = facilityApi;
+export const { useLazyGetAllFacilityQuery,useGetAllFacilityQuery,useCheckFacilityAvailabilityQuery,useUpdateFacilityMutation,useDeleteFacilityMutation ,useGetSingleFacilityQuery,useCreateFacilityMutation} = facilityApi;

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import demoImage from '../../../assets/featuredpos/stadoi.jpeg'
 
 const FeaturedFacility = ({facility}) => {
+  
   const {name,description,_id}=facility;
   
    console.log(facility);

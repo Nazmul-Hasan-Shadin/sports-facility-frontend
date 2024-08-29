@@ -1,9 +1,11 @@
 import DashboardLayout from "../components/layout/DashboardLayout";
 import About from "../pages/About/About";
 import FacilityDetailsPage from "../pages/FacilityDetailsPage/FacilityDetailsPage";
+import FacilityList from "../pages/FacilityList/FacilityList";
 import Home from "../pages/Home/Home/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import BookingConfirmationPage from "../pages/admin/paymentPage/makePaymentPage";
 import Bookings from "../pages/users/Bookings/Bookings";
 import DashboardHome from "../pages/users/Dashboard/DashboardHome";
 
@@ -27,16 +29,15 @@ export const userPaths = [
     path: "login",
     element: <Login />,
   },
-  {
-    name: "Bookings",
-    path: "bookings",
-    element: <Bookings />,
-  },
 
-  {name: "Register",
-    path: "/register",
-    element: <Register />,
+  {name: "Offered",
+    path: "/offered",
+    element: <FacilityList />,
   },
+  {name: "Booking",
+  path: "/booking-confirmation",
+  element: <BookingConfirmationPage />,
+},
 ];
 
 export const authenticUserRoutes = [

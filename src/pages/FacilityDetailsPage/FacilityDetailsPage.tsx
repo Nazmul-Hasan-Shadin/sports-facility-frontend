@@ -8,9 +8,10 @@ import {
   Space,
   Typography,
 } from "antd";
-import React, { useEffect, useState } from "react";
-import { FaFootball, FaLocationCrosshairs } from "react-icons/fa6";
-import { useParams } from "react-router-dom";
+import './FacilityDetailsPage.css'
+import React, { useState } from "react";
+import { FaLocationCrosshairs } from "react-icons/fa6";
+import { useNavigate, useParams } from "react-router-dom";
 const { Title, Text } = Typography;
 
 import type { CalendarProps } from "antd";
@@ -20,8 +21,9 @@ import { useCheckFacilityAvailabilityQuery } from "../../redux/feature/facillity
 const FacilityDetailsPage = () => {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const { facilityId } = useParams();
+  const [selectedTime, setSelectedTime] = useState<{ startTime: string; endTime: string } | null>(null);
 
-  // console.log(facilityId, selectedDate,'iam both');
+  const navigate = useNavigate();
 
   const dataParams = {
     date: selectedDate,
@@ -31,7 +33,6 @@ const FacilityDetailsPage = () => {
   const {
     data: availableSlot,
     isLoading,
-    refetch,
   } = useCheckFacilityAvailabilityQuery(dataParams, {
     skip: !selectedDate,
   });
@@ -40,32 +41,36 @@ const FacilityDetailsPage = () => {
     return <h2>loading</h2>;
   }
 
-
-
-  console.log(availableSlot?.data);
-
-  const onPanelChange = async (
-    value: Dayjs,
-    mode: CalendarProps<Dayjs>["mode"]
-  ) => {
+  const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>["mode"]) => {
     const formattedDate = value.format("YYYY-MM-DD");
     setSelectedDate(formattedDate);
-   
+  };
+
+  const handleTimeSelection = (slot) => {
+    setSelectedTime({ startTime: slot.startTime, endTime: slot.endTime });
+  };
+
+  const handleBooking = () => {
+    if (!selectedTime) {
+      alert("Please select a time slot before booking.");
+      return;
+    }
+
+    navigate("/booking-confirmation", {
+      state: { selectedTime, facilityId, selectedDate }
+    });
   };
 
   return (
-    <div className="p-5 ">
+    <div className="p-5">
       <Row gutter={16}>
-        {/* left side items */}
         <Col xs={24} md={16}>
-          {/* rating and review card */}
           <Card>
             <div>
               <Title level={3}>Tenis Ball</Title>
-
               <div className="flex items-center gap-3">
                 <Rate className="text-sm" defaultValue={2}></Rate>
-                <Text>33(Reviews)</Text>
+                <Text>33 (Reviews)</Text>
                 <div className="flex items-center gap-1">
                   <FaLocationCrosshairs /> Bahrain, Riffa
                 </div>
@@ -75,8 +80,6 @@ const FacilityDetailsPage = () => {
               <Title level={5}>Pitch Type: Turf, Venue Type: Outdoor</Title>
               <Text>Opening Hours: 04:00 PM - 11:59 PM</Text>
             </div>
-
-            {/* image */}
             <img
               src="https://via.placeholder.com/600x400"
               alt="Soccer World"
@@ -84,110 +87,69 @@ const FacilityDetailsPage = () => {
             />
           </Card>
         </Col>
-        {/* right side   */}
         <Col className="border-green-600" xs={24} md={8}>
           <Card>
-            <div className=" text-center">
-              <Title level={4}>Book a Filed on Soccer World</Title>
+            <div className="text-center">
+              <Title level={4}>Book a Field on Soccer World</Title>
               <Text>Select date and duration to show available slots</Text>
             </div>
-            <div className="w-[300px] ">
+            <div className="w-[300px]">
               <Calendar
                 onChange={onPanelChange}
                 fullscreen={false}
-                className="mt-10 "
+                className="mt-10"
               />
             </div>
-
-            {/* DURATION  */}
             <div className="mt-10 space-y-[14px]">
-              <Text className="block ">Match Duartion</Text>
+              <Text className="block">Match Duration</Text>
               <Space direction="horizontal">
                 <Button className="bg-primary" type="primary">
                   90 Min
                 </Button>
                 <Button type="default">9 Min</Button>
               </Space>
-
               <Button
+                onClick={handleBooking}
                 htmlType="submit"
-                className="bg-secondary w-full text-white "
+                className="bg-secondary w-full text-white"
               >
                 Show Available Slots
               </Button>
             </div>
           </Card>
         </Col>
-
         <Col xs={24} md={24}>
           <Title className="text-center" level={3}>
-            {" "}
             Available Time
           </Title>
           <div className="space-y-4">
-            {/* <Row
-             
-              justify={"center"}
-              align={"middle"}
-              gutter={[22, 0]}
-            >
-              <Col span={3}>
-                <Button type="primary" className="bg-secondary">
-                  9:00 am - 10:pm
-                </Button>
-              </Col>
-              <Col span={3}>
-                <Button type="primary" className="bg-secondary">
-                  9:00 am - 10:pm
-                </Button>
-              </Col>
-
-              <Col span={3}>
-                <Button type="primary" className="bg-secondary">
-                  9:00 am - 10:pm
-                </Button>
-              </Col>
-              <Col span={3}>
-                <Button type="primary" className="bg-secondary">
-                  9:00 am - 10:pm
-                </Button>
-              </Col>
-              <Col span={3}>
-                <Button type="primary" className="bg-secondary">
-                  9:00 am - 10:pm
-                </Button>
-              </Col>
-            </Row>
-
-            <Row gutter={[22, 0]} justify={"center"}>
-              <Col span={3}>
-                <Button type="primary" className="bg-secondary">
-                  9:00 am - 10:pm
-                </Button>
-              </Col>
-              <Col span={3}>
-                <Button type="primary" className="bg-secondary">
-                  9:00 am - 10:pm
-                </Button>
-              </Col>
-
-              <Col span={3}>
-                <Button type="primary" className="bg-secondary">
-                  9:00 am - 10:pm
-                </Button>
-              </Col>
-            </Row> */}
-
             {availableSlot?.data && availableSlot.data.length > 0 ? (
-              <Row justify="center" align="middle" gutter={[22, 0]}>
-                {availableSlot.data?.map((slot) => (
-                  <Col span={3} key={slot?._id}>
-                    <Button type="primary" className="bg-secondary">
-                      {`${slot.startTime} - ${slot.endTime}`}
-                    </Button>
-                  </Col>
-                ))}
-              </Row>
+              <div>
+                <Row justify="center" align="middle" gutter={[22, 0]}>
+                  {availableSlot.data.map((slot) => (
+                    <Col span={3} key={slot._id}>
+                      <Button
+                        onClick={() => handleTimeSelection(slot)}
+                        type="primary"
+                        className={`bg-secondary ${
+                          selectedTime &&
+                          selectedTime.startTime === slot.startTime &&
+                          selectedTime.endTime === slot.endTime
+                            ? "selected"
+                            : ""
+                        }`}
+                      >
+                        {`${slot.startTime} - ${slot.endTime}`}
+                      </Button>
+                    </Col>
+                  ))}
+                </Row>
+                <div className="flex justify-center mt-8">
+                  <Button type="primary" className="bg-primary text-white" onClick={handleBooking}>
+                    Book Now
+                  </Button>
+                </div>
+              </div>
             ) : (
               <Text>No available slots for the selected date.</Text>
             )}

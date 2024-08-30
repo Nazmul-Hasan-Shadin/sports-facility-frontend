@@ -13,12 +13,12 @@ export const publicSidebarGenerator = (items: TUserPath[], role: string) => {
   const SideBarItems = items.reduce((acc: TSidebarItem[], item) => {
     let path;
     if (item.name === "Home") {
-      path = "/"; // Always redirect "Home" to the root path
+      path = "/"; 
     } else {
       path = role ? `/${role}/${item.path}` : item.path;
     }
 
-    if (item.path && item.element) {
+    if (item.path && item.element && item.name !=='') {
       acc.push({
         key: item.path,
         label: (
@@ -31,7 +31,7 @@ export const publicSidebarGenerator = (items: TUserPath[], role: string) => {
 
     if (item.children) {
       acc.push({
-        key: item.name,
+        key: item.name ,
         label: item.name,
         children: item.children.map((child) => {
           if (child.name) {

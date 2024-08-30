@@ -22,12 +22,13 @@ export const userPaths = [
     element: <Home />,
   },
 
-  {
+  { 
+    name:'',
     path: "facility/:facilityId",
     element: <FacilityDetailsPage />,
   },
   {
-    name: "Login",
+    name: "",
     path: "login",
     element: <Login />,
   },
@@ -37,14 +38,13 @@ export const userPaths = [
     element: <Register />,
   },
   {
-    name: "Dashbooard",
-    path: "/user/dashboard",
+    name: "",
+    path: "/dashboard",
     element: (
       <ProtectedRoute role="user">
         <DashboardLayout />
       </ProtectedRoute>
     ),
-   
   },
   {
     name: "",
@@ -52,8 +52,8 @@ export const userPaths = [
     element: <BookingForm />,
   },
 
-  { name: "Offered", path: "/offered", element: <FacilityList /> },
-  {  path: "/pay", element: <Payment /> },
+  { name: "Facility List", path: "/offered", element: <FacilityList /> },
+  { name:'', path: "/pay", element: <Payment /> },
   { name: "Contact", path: "contact", element: <ContactPage /> },
   { name: "About", path: "about", element: <AboutPage /> },
 ];

@@ -9,6 +9,8 @@ const { Title, Text } = Typography;
 const DashboardHome = () => {
   const { email } = useAppSelector(selectCurrentUser);
   const { data: userInfo } = useGetUserByEmailQuery(email);
+  console.log(userInfo);
+  
   
   return (
     <Card
@@ -22,7 +24,7 @@ const DashboardHome = () => {
       <Row align="middle">
         <Col span={16}>
           <Title level={2} style={{ color: "white", marginBottom: "10px" }}>
-            Welcome to Your Dashboard!
+            Welcome  {userInfo?.data?.name}!
           </Title>
           <Text style={{ color: "white", fontSize: "16px" }}>
             We're glad to have you here, {userInfo?.name}. Explore the features and manage your bookings with ease.

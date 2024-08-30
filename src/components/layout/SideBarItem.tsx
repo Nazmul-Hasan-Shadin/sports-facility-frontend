@@ -13,6 +13,8 @@ import { selectCurrentToken } from "../../redux/feature/auth/authSlice";
 import { VerifyToken } from "../../utils/VerifyToken";
 import { TUser } from "../../types";
 import { adminPath } from "../../routes/route.admin";
+import ProtectedRoute from "./ProtectedRoute";
+import DashboardLayout from "./DashboardLayout";
 
 const userRole = {
   USER: "user",
@@ -32,6 +34,11 @@ const SideBarItem = () => {
   switch ((user as TUser).role) {
     case userRole.USER:
       sidebarItems = publicSidebarGenerator(authenticUserRoutes, userRole.USER);
+      sidebarItems = [
+        ...sidebarItems,
+        { key: "3", label: <NavLink to={"/"}>Home</NavLink> },
+  
+      ];
 
       break;
     case userRole.ADMIN:

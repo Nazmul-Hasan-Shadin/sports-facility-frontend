@@ -4,6 +4,7 @@ import { Typography } from "antd";
 import FeaturedFacility from "./FeaturedFacility";
 import { TFacility } from "../../../types";
 import { useGetAllFacilityQuery } from "../../../redux/feature/facillity/facility.auth.api";
+import Container from "../../../Container/Container";
 
 const { Title } = Typography;
 
@@ -20,12 +21,14 @@ const FeaturedFacilities = () => {
 
   return (
     <div className="featured-facilities" style={{ padding: "20px" }}>
+      <Container>
       <Title className="text-start">Featured Facility</Title>
       <Row gutter={12}>
         {featuredFacility?.data?.map((facility: TFacility) => (
           <FeaturedFacility facility={facility} key={facility._id} />
         ))}
       </Row>
+      </Container>
     </div>
   );
 };

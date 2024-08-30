@@ -3,7 +3,9 @@ import { Button, Col, Form, Modal, Popconfirm, Row, Space, Table } from "antd";
 import type { TableColumnsType } from "antd";
 import { useGetUsersBookinsQuery } from "../../../redux/feature/Bookings/auth.bookings.api";
 import {
+  useGetAllFacilityQuery,
   useLazyGetAllFacilityQuery,
+  useRemoveFacilityMutation,
   useUpdateFacilityMutation,
 } from "../../../redux/feature/facillity/facility.auth.api";
 import Title from "antd/es/typography/Title";
@@ -27,7 +29,19 @@ const Facility: React.FC = () => {
     null
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { data: facility } = useGetAllFacilityQuery();
+  const { data: facility } = useGetAllFacilityQuery({ undefined });
+  console.log(facility, "iam prqo facility");
+
+  const [removeFaility] = useRemoveFacilityMutation();
+  const { data: allBookings, refetch } = useGetUsersBookinsQuery(undefined);
+  const handleDelete = async (id: React.Key) => {
+    try {
+      await removeFaility(id).unwrap();
+    
+    } catch (error) {
+      console.error("Failed to delete booking:", error.message);
+    }
+  };
 
   const columns: TableColumnsType<DataType> = [
     {
@@ -59,12 +73,14 @@ const Facility: React.FC = () => {
         console.log("iamrecord", item);
 
         return (
-          <Space className="flex items-center gap-5">
+          <div className="flex gap-4">
             <Popconfirm
               title="Are you sure you want to delete this item?"
-              onConfirm={() => console.log("u")}
+              onConfirm={() => handleDelete(item.key)}
             >
-              <FaTrash style={{ color: "orange" }} className="text-xl" />
+             <FaTrash style={{ color: "orange" }} className="text-xl" />
+              
+              
             </Popconfirm>
 
             <FaEdit
@@ -74,7 +90,7 @@ const Facility: React.FC = () => {
               }}
               className="text-xl text-primary"
             />
-          </Space>
+          </div>
         );
       },
       width: 100,
@@ -83,13 +99,14 @@ const Facility: React.FC = () => {
 
   const data: DataType[] =
     facility?.data.map(
-      ({ location, name, pricePerHour, _id, description }) => ({
+      ({ location, name, pricePerHour, _id, description, image }) => ({
         key: _id,
 
         description,
         location,
         name,
         pricePerHour,
+        image,
       })
     ) || [];
 
@@ -180,6 +197,16 @@ export const FacilityEditModal = ({ isOpen, onOk, onCancel, facilityData }) => {
                   label="PricePerHour"
                   id="PricePerHour"
                   name="pricePerHour"
+                />
+              </Form.Item>
+
+              <Form.Item>
+                <SFInput
+                  defaultValue={facilityData?.image}
+                  type="text"
+                  label="Image"
+                  id="Image"
+                  name="image"
                 />
               </Form.Item>
               <Form.Item>

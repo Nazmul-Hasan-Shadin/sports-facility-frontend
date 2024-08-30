@@ -27,18 +27,18 @@ const Login = () => {
 
     try {
       const res = await login(userInfo).unwrap();
-      console.log(res,'iam token and response');
+      console.log(res, "iam token and response");
 
-      const verifyToken = VerifyToken(res?.token)
+      const verifyToken = VerifyToken(res?.token);
       dispatch(setUser({ user: verifyToken, token: res?.token }));
-      if (res.data.success) {
+      if (res?.success) {
         toast.success("Logged in successful");
         navigate("/");
       }
     } catch (error: any) {
       console.log(error);
 
-      toast.error(error.message);
+      toast.error(error?.data?.message);
     }
   };
   return (

@@ -14,6 +14,7 @@ const CreateFacility = () => {
             name:data.name,
             pricePerHour:Number(data.pricePerHour),
             description:data.description,
+            image:data.image,
             location:data.location
         }
         console.log(facilityData);
@@ -42,6 +43,7 @@ const CreateFacility = () => {
       <Form.Item>  <SFInput type="text" label="Facility Name" id="Name" name="name"/></Form.Item>
       <Form.Item>  <SFInput type="text" label="Description" id="Name" name="description"/></Form.Item>
         <Form.Item> <SFInput type="number" label="PricePerHour" id="PricePerHour" name="pricePerHour"/></Form.Item>
+        <Form.Item> <SFInput type="text" label="Image" id="image" name="image"/></Form.Item>
        <Form.Item> <SFInput type="text" label="Location" id="location" name="location"/></Form.Item>
        <Button htmlType="submit"> Create Facility </Button>
 

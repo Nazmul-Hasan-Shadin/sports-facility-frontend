@@ -40,9 +40,10 @@ const SideBarItem = () => {
       break;
       case userRole.ADMIN:
         sidebarItems= publicSidebarGenerator(adminPath,userRole.ADMIN)
+        sidebarItems=[...sidebarItems, {key:'joy',label: <NavLink to={'/'}>Home</NavLink>,}]
         
         break;
-  
+        
     default:
       break;
   }

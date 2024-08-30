@@ -26,7 +26,10 @@ const FacilityBanner = ({image1,image2}) => {
         className="mySwiper"
       >
         <SwiperSlide> 
-        {image2}
+        <img src={image1} alt="" />
+        </SwiperSlide>
+        <SwiperSlide> 
+        <img src={image1} alt="" />
         </SwiperSlide>
        
 

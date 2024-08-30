@@ -1,9 +1,12 @@
 import DashboardLayout from "../components/layout/DashboardLayout";
+import AboutPage from "../pages/About";
 import About from "../pages/About/About";
+import ContactPage from "../pages/Contact";
 import FacilityDetailsPage from "../pages/FacilityDetailsPage/FacilityDetailsPage";
 import FacilityList from "../pages/FacilityList/FacilityList";
 import Home from "../pages/Home/Home/Home";
 import Login from "../pages/Login";
+import Payment from "../pages/Payment/Payment";
 import Register from "../pages/Register";
 import BookingConfirmationPage from "../pages/admin/paymentPage/makePaymentPage";
 import Bookings from "../pages/users/Bookings/Bookings";
@@ -17,7 +20,7 @@ export const userPaths = [
   },
   {
     name: "Dashbooard",
-    path: "/dashboard",
+    path: "/user/dashboard",
     element: <DashboardLayout />,
   },
   {
@@ -35,8 +38,16 @@ export const userPaths = [
     element: <FacilityList />,
   },
   {name: "Booking",
-  path: "/booking-confirmation",
-  element: <BookingConfirmationPage />,
+  path: "/pay",
+  element: <Payment />,
+},
+{name: "contact",
+path: "contact",
+element: <ContactPage />,
+},
+{name: "about",
+path: "about",
+element: <AboutPage />,
 },
 ];
 
@@ -53,6 +64,7 @@ export const authenticUserRoutes = [
     path: "bookings",
     element: <Bookings />,
   },
+
 
 
 ];

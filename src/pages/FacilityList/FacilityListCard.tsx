@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const { Title, Text } = Typography;
 
 const FacilityCard = ({ facility }) => {
-  const { description, name, pricePerHour ,_id} = facility;
+  const { description, name, pricePerHour ,image,_id} = facility;
   return (
     <Col>
       <Card
@@ -23,7 +23,7 @@ const FacilityCard = ({ facility }) => {
           {/* Image Section */}
           <Col xs={7} md={8}>
             <img
-              src="	https://cdn.malaebapp.com/images/stadium/1154/small"
+              src={image}
               alt="The Village Football"
               style={{ width: "100%", height: "160px", objectFit: "contain" }}
             />

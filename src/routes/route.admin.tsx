@@ -1,3 +1,4 @@
+import Home from "../pages/Home/Home/Home";
 import Bookings from "../pages/admin/FacilityManagement/Bookings";
 import CreateAdmin from "../pages/admin/FacilityManagement/CreateAdmin";
 import CreateFacility from "../pages/admin/FacilityManagement/CreateFacility";
@@ -33,6 +34,6 @@ export const adminPath=[
         path:'create-admin',
         element: <CreateAdmin/>
     },
-   
+
    
 ]

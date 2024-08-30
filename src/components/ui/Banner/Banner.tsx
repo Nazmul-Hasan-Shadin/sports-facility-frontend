@@ -9,6 +9,7 @@ import "./module.banner.css";
 import { useEffect, useState } from "react";
 import { useLazyGetAllFacilityQuery } from "../../../redux/feature/facillity/facility.auth.api";
 import { Link, useNavigate } from "react-router-dom";
+import Container from "../../../Container/Container";
 type SearchProps = GetProps<typeof Input.Search>;
 
 const Banner = () => {
@@ -55,63 +56,67 @@ const Banner = () => {
 
   return (
     <div className="pt-4">
-      <Swiper pagination={true} modules={[Pagination]} className="mySwiper">
-        <SwiperSlide>
-          <div className="relative">
-            <div
-              style={{ backgroundColor: " rgba(0, 0, 0, 0.9)" }}
-              className="mask-backgorund bg-gray-500 opacity-70 z-10 inset-0 flex justify-center items-center absolute"
-            >
-              <div className="text-center pb-10 space-y-5">
-                <h2 className="text-white text-xl md:text-2xl lg:text-3xl font-bold mb-5 ">
-                  Booking Sport Venues Has Never Been Easier
-                </h2>
-                <AutoComplete
-                  popupMatchSelectWidth={252}
-                  style={{ width: 300 }}
-                  options={options}
-                  onSelect={onSelect}
-                  onSearch={handleSearch}
-                  size="large"
-                >
-                  <Search
-                    placeholder="input search text"
-                    allowClear
-                    enterButton="Search"
+      <Container>
+        <Swiper pagination={true} modules={[Pagination]} className="mySwiper">
+          <SwiperSlide>
+            <div className="relative">
+              <div
+                style={{ backgroundColor: " rgba(0, 0, 0, 0.9)" }}
+                className="mask-backgorund bg-gray-500 opacity-70 z-10 inset-0 flex justify-center items-center absolute"
+              >
+                <div className="text-center pb-10 space-y-5">
+                  <h2 className="text-white text-xl md:text-2xl lg:text-3xl font-bold mb-5 ">
+                    Booking Sport Venues Has Never Been Easier
+                  </h2>
+                  <AutoComplete
+                    popupMatchSelectWidth={252}
+                    style={{ width: 300 }}
+                    options={options}
+                    onSelect={onSelect}
+                    onSearch={handleSearch}
                     size="large"
-                    onSearch={onSearch}
-                    style={{
-                      paddingBottom: "10px",
-                      color: "#FFA500",
-                    }}
-                    className="w-[300px]  md:w-[400px]"
-                  />
-                </AutoComplete>
+                  >
+                    <Search
+                      placeholder="input search text"
+                      allowClear
+                      enterButton="Search"
+                      size="large"
+                      onSearch={onSearch}
+                      style={{
+                        paddingBottom: "10px",
+                        color: "#FFA500",
+                      }}
+                      className="w-[300px]  md:w-[400px]"
+                    />
+                  </AutoComplete>
 
-                <Button
-                  size="large"
-                  style={{
-                    backgroundColor: "#00725A", // Primary color for button
-                    color: "#FFFFFF",
-                    borderColor: "#00725A",
-                    width: "150px",
-                  }}
-                  className="block mx-auto"
-                >
-                  Book Now
-                </Button>
+                  <Link to={'/offered'}>
+                    <Button
+                      size="large"
+                      style={{
+                        backgroundColor: "#00725A", // Primary color for button
+                        color: "#FFFFFF",
+                        borderColor: "#00725A",
+                        width: "150px",
+                      }}
+                      className="block mx-auto"
+                    >
+                      Book Now
+                    </Button>
+                  </Link>
+                </div>
               </div>
-            </div>
 
-            <img
-              className=" w-full h-[340px] object-cover md:object-fit md:h-full "
-              src={banner}
-              alt="A man who kicking the footbal "
-            />
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>Slide 2</SwiperSlide>
-      </Swiper>
+              <img
+                className=" w-full h-[340px] object-cover md:object-fit md:h-full "
+                src={banner}
+                alt="A man who kicking the footbal "
+              />
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>Slide 2</SwiperSlide>
+        </Swiper>
+      </Container>
     </div>
   );
 };

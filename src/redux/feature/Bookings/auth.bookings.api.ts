@@ -15,11 +15,22 @@ const authApi=baseApi.injectEndpoints({
         query:()=>({
             url:'/bookings',
             method:'GET',
+            
+        }),
+        providesTags:['bookings']
+    }),
+
+    removeBooking:builder.mutation({
+        query:(id)=>({
+            url:`/bookings/${id}`,
+            method:'DELETE',
            
-        })
+        }),
+        invalidatesTags: ['bookings']
     })
     })
 })
 
 
-export const {useGetUsersBookinsQuery,useGetAllBookingsQuery}=authApi
+
+export const {useGetUsersBookinsQuery,useGetAllBookingsQuery,useRemoveBookingMutation,useGetAllBookingsForAdminQuery}=authApi

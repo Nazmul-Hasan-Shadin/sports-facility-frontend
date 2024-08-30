@@ -6,7 +6,7 @@ import Home from "./pages/Home/Home/Home";
 import { ConfigProvider } from "antd";
 
 function App() {
-  return <div className="max-w-[1920px] mx-auto "></div>;
+  return <div ></div>;
 }
 
 export default App;

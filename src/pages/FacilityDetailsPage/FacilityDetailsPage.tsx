@@ -8,7 +8,7 @@ import {
   Space,
   Typography,
 } from "antd";
-import './FacilityDetailsPage.css'
+import "./FacilityDetailsPage.css";
 import React, { useState } from "react";
 import { FaLocationCrosshairs } from "react-icons/fa6";
 import { useNavigate, useParams } from "react-router-dom";
@@ -16,12 +16,20 @@ const { Title, Text } = Typography;
 
 import type { CalendarProps } from "antd";
 import type { Dayjs } from "dayjs";
-import { useCheckFacilityAvailabilityQuery } from "../../redux/feature/facillity/facility.auth.api";
+import {
+  useCheckFacilityAvailabilityQuery,
+  useGetSingleFacilityQuery,
+} from "../../redux/feature/facillity/facility.auth.api";
+import FacilityBanner from "../../components/ui/FacilityBanner/FacilityBanner";
 
 const FacilityDetailsPage = () => {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const { facilityId } = useParams();
-  const [selectedTime, setSelectedTime] = useState<{ startTime: string; endTime: string } | null>(null);
+  const [selectedTime, setSelectedTime] = useState<{
+    startTime: string;
+    endTime: string;
+  } | null>(null);
+  const [shouldFetchSlots, setShouldFetchSlots] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -30,14 +38,21 @@ const FacilityDetailsPage = () => {
     facility: facilityId,
   };
 
-  const {
-    data: availableSlot,
-    isLoading,
-  } = useCheckFacilityAvailabilityQuery(dataParams, {
-    skip: !selectedDate,
-  });
+  const { data: singleFacility, isLoading: singleFacilityLoading } =
+    useGetSingleFacilityQuery(facilityId);
+
+  const { data: availableSlot, isLoading } = useCheckFacilityAvailabilityQuery(
+    dataParams,
+    {
+      skip: !selectedDate || !shouldFetchSlots,
+    }
+  );
 
   if (isLoading) {
+    return <h2>loading</h2>;
+  }
+
+  if (singleFacilityLoading) {
     return <h2>loading</h2>;
   }
 
@@ -56,9 +71,17 @@ const FacilityDetailsPage = () => {
       return;
     }
 
-    navigate("/booking-confirmation", {
-      state: { selectedTime, facilityId, selectedDate }
+    navigate("/pay", {
+      state: { selectedTime, facilityId, selectedDate ,pricePerHour:singleFacility?.data?.pricePerHour},
     });
+  };
+
+  const handleCheckAvailableSlots = () => {
+    if (!selectedDate) {
+      alert("Please select a date first.");
+      return;
+    }
+    setShouldFetchSlots(true);
   };
 
   return (
@@ -67,12 +90,12 @@ const FacilityDetailsPage = () => {
         <Col xs={24} md={16}>
           <Card>
             <div>
-              <Title level={3}>Tenis Ball</Title>
+              <Title level={3}> {singleFacility?.data?.name} </Title>
               <div className="flex items-center gap-3">
                 <Rate className="text-sm" defaultValue={2}></Rate>
                 <Text>33 (Reviews)</Text>
                 <div className="flex items-center gap-1">
-                  <FaLocationCrosshairs /> Bahrain, Riffa
+                  <FaLocationCrosshairs /> {singleFacility?.data?.location}
                 </div>
               </div>
             </div>
@@ -80,11 +103,9 @@ const FacilityDetailsPage = () => {
               <Title level={5}>Pitch Type: Turf, Venue Type: Outdoor</Title>
               <Text>Opening Hours: 04:00 PM - 11:59 PM</Text>
             </div>
-            <img
-              src="https://via.placeholder.com/600x400"
-              alt="Soccer World"
-              style={{ width: "100%", marginTop: "20px", height: "390px" }}
-            />
+
+            {/* Dynamic banner */}
+            <FacilityBanner image1={singleFacility?.data?.image} image2={''}></FacilityBanner>
           </Card>
         </Col>
         <Col className="border-green-600" xs={24} md={8}>
@@ -98,6 +119,9 @@ const FacilityDetailsPage = () => {
                 onChange={onPanelChange}
                 fullscreen={false}
                 className="mt-10"
+                style={{
+                  borderColor: '#00725A', // Accent color for borders and highlights
+                }}
               />
             </div>
             <div className="mt-10 space-y-[14px]">
@@ -109,7 +133,7 @@ const FacilityDetailsPage = () => {
                 <Button type="default">9 Min</Button>
               </Space>
               <Button
-                onClick={handleBooking}
+                onClick={handleCheckAvailableSlots}
                 htmlType="submit"
                 className="bg-secondary w-full text-white"
               >
@@ -145,7 +169,11 @@ const FacilityDetailsPage = () => {
                   ))}
                 </Row>
                 <div className="flex justify-center mt-8">
-                  <Button type="primary" className="bg-primary text-white" onClick={handleBooking}>
+                  <Button
+                    type="primary"
+                    className="bg-primary text-white"
+                    onClick={handleBooking}
+                  >
                     Book Now
                   </Button>
                 </div>

@@ -11,6 +11,7 @@ const facilityApi = baseApi.injectEndpoints({
           params:{searchTerm,limit,page,sort}
         };
       },
+      providesTags:['facility']
     }),
 
     getSingleFacility: builder.query({
@@ -64,18 +65,15 @@ const facilityApi = baseApi.injectEndpoints({
           };
         },
       }),
-      deleteFacility: builder.mutation({
-        query: (facilityId) => {
-      
-  
-          return {
-            url: `/facility/${facilityId}`,
-            method: "DELETE",
-          
-          };
-        },
-      }),
+      removeFacility:builder.mutation({
+        query:(id)=>({
+            url:`/bookings/${id}`,
+            method:'DELETE',
+           
+        }),
+        invalidatesTags: ['facility']
+    })
   }),
 });
 
-export const { useLazyGetAllFacilityQuery,useGetAllFacilityQuery,useCheckFacilityAvailabilityQuery,useUpdateFacilityMutation,useDeleteFacilityMutation ,useGetSingleFacilityQuery,useCreateFacilityMutation} = facilityApi;
+export const { useLazyGetAllFacilityQuery,useGetAllFacilityQuery,useCheckFacilityAvailabilityQuery,useUpdateFacilityMutation,useRemoveFacilityMutation ,useGetSingleFacilityQuery,useCreateFacilityMutation} = facilityApi;

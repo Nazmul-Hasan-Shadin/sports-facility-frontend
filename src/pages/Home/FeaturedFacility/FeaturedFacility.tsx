@@ -1,39 +1,57 @@
 import { Button, Card, Col, Rate } from "antd";
 import { Link } from "react-router-dom";
-import demoImage from '../../../assets/featuredpos/stadoi.jpeg'
 
-const FeaturedFacility = ({facility}) => {
-  
-  const {name,description,_id}=facility;
-  
-   console.log(facility);
-   
+const FeaturedFacility = ({ facility }) => {
+  const { name, description, _id, image } = facility;
+
   return (
-    <Col span={24} md={8} lg={6}>
+    <Col xs={24} sm={12} md={8} lg={6}>
       <Card
-      
+        hoverable
         cover={
-          <img style={{width:'300', height:'300'}}
-            alt="example"
-            src={demoImage}
+          <img
+            alt={name}
+            src={image || "https://via.placeholder.com/300"}
+            style={{
+              width: "100%",
+              height: "200px",
+              objectFit: "cover",
+              borderRadius: "8px 8px 0 0",
+            }}
           />
         }
+        style={{
+          borderRadius: "8px",
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+          transition: "transform 0.3s ease",
+        }}
+        onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.03)")}
+        onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
       >
         <Card.Meta
-          title={ 
-            <div className="flex justify-between">
-               <span>{name}</span>
-               <Rate className="text-sm" allowHalf defaultValue={3}/>
+          title={
+            <div className="flex justify-between items-center">
+              <span className="font-semibold text-lg">{name}</span>
+              <Rate
+                className="text-sm"
+                allowHalf
+                defaultValue={facility.rating || 3}
+                disabled
+              />
             </div>
           }
-
-          description={
-            description
-          }
-        ></Card.Meta>
-        
-
-       <Link to={`/facility/${_id}`}> <Button className="bg-primary text-white mt-5" type="default">View Details</Button></Link>
+          description={<p className="text-gray-600 mt-2">{description}</p>}
+        />
+        <Link to={`/facility/${_id}`}>
+          <Button
+            type="primary"
+            block
+            className="bg-primary text-white mt-4 hover:bg-green-700"
+            style={{ borderRadius: "4px", padding: "8px 0" }}
+          >
+            View Details
+          </Button>
+        </Link>
       </Card>
     </Col>
   );

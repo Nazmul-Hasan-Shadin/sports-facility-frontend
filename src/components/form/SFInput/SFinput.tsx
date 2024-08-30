@@ -7,10 +7,11 @@ type TSFInputProps = {
   id: string;
   label: string;
   className?:string;
-  defaultValue?:any
+  defaultValue?:any;
+  disabled:boolean
 };
 
-const SFInput = ({ name, type, label,className ,defaultValue}: TSFInputProps) => {
+const SFInput = ({ name, type, label,className ,defaultValue,disabled}: TSFInputProps) => {
   // const { control } = useFormContext();
   return (
     <Controller 
@@ -18,7 +19,7 @@ const SFInput = ({ name, type, label,className ,defaultValue}: TSFInputProps) =>
       name={name}
       render={({ field }) => (
         <Form.Item labelCol={{ span: 24 }} layout="vertical" label={label}>
-          <Input className={className} {...field} type={type} id={name} />{" "}
+          <Input disabled={disabled} className={className} {...field} type={type} id={name} />{" "}
         </Form.Item>
       )}
     />

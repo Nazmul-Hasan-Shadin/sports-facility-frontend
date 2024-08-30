@@ -11,6 +11,13 @@ const authApi=baseApi.injectEndpoints({
             body:userInfo
         })
     }),
+    createBooking:builder.mutation({
+        query:(bookingData)=>({
+            url:'/bookings',
+            method:'POST',
+            body:bookingData
+        })
+    }),
     getAllBookings:builder.query({
         query:()=>({
             url:'/bookings',
@@ -33,4 +40,4 @@ const authApi=baseApi.injectEndpoints({
 
 
 
-export const {useGetUsersBookinsQuery,useGetAllBookingsQuery,useRemoveBookingMutation,useGetAllBookingsForAdminQuery}=authApi
+export const {useGetUsersBookinsQuery,useGetAllBookingsQuery,useRemoveBookingMutation,useCreateBookingMutation}=authApi

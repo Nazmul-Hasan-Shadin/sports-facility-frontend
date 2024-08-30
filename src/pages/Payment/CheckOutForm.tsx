@@ -1,23 +1,18 @@
-
-
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { toast } from "sonner";
+import { useCreateBookingMutation } from "../../redux/feature/Bookings/auth.bookings.api";
 
 const CheckOutForm = () => {
+  const [makeBookings] = useCreateBookingMutation();
   const [clientSecret, setClientSecret] = useState("");
   const [error, setError] = useState("");
   const stripe = useStripe();
   const elements = useElements();
 
   const location = useLocation();
-  const { selectedTime, facilityId, selectedDate,pricePerHour } = location.state || {};
-    console.log(pricePerHour);
-    
-
-
-
+  const { pricePerHour, facilityId, selectedDate, selectedTime } = location.state || {};
 
   useEffect(() => {
     const fetchClientSecret = async () => {
@@ -33,7 +28,6 @@ const CheckOutForm = () => {
           }
         );
         const data = await response.json();
-
         setClientSecret(data.clientSecret);
       } catch (error) {
         console.error("Error fetching client secret:", error);
@@ -46,10 +40,9 @@ const CheckOutForm = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!stripe || !elements) {
-      // Stripe.js has not loaded yet. Make sure to disable
-      // form submission until Stripe.js has loaded.
       return;
     }
+
     const card = elements.getElement(CardElement);
     if (card == null) {
       return;
@@ -63,32 +56,48 @@ const CheckOutForm = () => {
     if (error) {
       console.log("[error]", error);
       setError(error.message || "An error occurred while creating the payment method.");
-    } else {
-      console.log("[PaymentMethod]", paymentMethod);
-      setError("");
+      return;
     }
 
-    const { paymentIntent, error: confirmError } =
-      await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: card,
-          billing_details: {
-            name: "testbro",
-          },
+    const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: card,
+        billing_details: {
+          name: "testbro",
         },
-      });
+      },
+    });
 
     if (confirmError) {
-      console.log("confirm er", confirmError);
-    } else {
-      if (paymentIntent.status === "succeeded") {
-        toast.success(`$ ${pricePerHour} payment successful`);
-      }
+      console.log("confirm error", confirmError);
+      setError(confirmError.message || "An error occurred while confirming the payment.");
+      return;
+    }
 
-   
-    
+    if (paymentIntent.status === "succeeded") {
+      toast.success(`$${pricePerHour} payment successful`);
+
+      try {
+        // Send booking information to the server
+        const bookingData = {
+          facility:facilityId,
+          date: selectedDate,
+          startTime: selectedTime.startTime,
+          endTime:selectedTime.endTime,
+          price: pricePerHour,
+          isBooked:'confirmed'
+         
+        };
+
+        await makeBookings(bookingData).unwrap();
+        toast.success("Booking created successfully!");
+      } catch (error) {
+        console.error("Error creating booking:", error);
+        toast.error(error?.message);
+      }
     }
   };
+
   return (
     <div className="max-w-lg mx-auto mt-10 p-6 border rounded-md shadow-md bg-white">
       <form onSubmit={handleSubmit} className="space-y-4">

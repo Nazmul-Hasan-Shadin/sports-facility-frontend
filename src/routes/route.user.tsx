@@ -1,6 +1,8 @@
 import DashboardLayout from "../components/layout/DashboardLayout";
+import ProtectedRoute from "../components/layout/ProtectedRoute";
 import AboutPage from "../pages/About";
 import About from "../pages/About/About";
+import BookingForm from "../pages/BookingForm/BookingForm";
 import ContactPage from "../pages/Contact";
 import FacilityDetailsPage from "../pages/FacilityDetailsPage/FacilityDetailsPage";
 import FacilityList from "../pages/FacilityList/FacilityList";
@@ -9,6 +11,7 @@ import Login from "../pages/Login";
 import Payment from "../pages/Payment/Payment";
 import Register from "../pages/Register";
 import BookingConfirmationPage from "../pages/admin/paymentPage/makePaymentPage";
+
 import Bookings from "../pages/users/Bookings/Bookings";
 import DashboardHome from "../pages/users/Dashboard/DashboardHome";
 
@@ -18,11 +21,7 @@ export const userPaths = [
     path: "/",
     element: <Home />,
   },
-  {
-    name: "Dashbooard",
-    path: "/user/dashboard",
-    element: <DashboardLayout />,
-  },
+
   {
     path: "facility/:facilityId",
     element: <FacilityDetailsPage />,
@@ -32,27 +31,34 @@ export const userPaths = [
     path: "login",
     element: <Login />,
   },
-
-  {name: "Offered",
-    path: "/offered",
-    element: <FacilityList />,
+  {
+    name: "",
+    path: "register",
+    element: <Register />,
   },
-  {name: "Booking",
-  path: "/pay",
-  element: <Payment />,
-},
-{name: "contact",
-path: "contact",
-element: <ContactPage />,
-},
-{name: "about",
-path: "about",
-element: <AboutPage />,
-},
+  {
+    name: "Dashbooard",
+    path: "/user/dashboard",
+    element: (
+      <ProtectedRoute role="user">
+        <DashboardLayout />
+      </ProtectedRoute>
+    ),
+   
+  },
+  {
+    name: "",
+    path: "bookingForm",
+    element: <BookingForm />,
+  },
+
+  { name: "Offered", path: "/offered", element: <FacilityList /> },
+  {  path: "/pay", element: <Payment /> },
+  { name: "Contact", path: "contact", element: <ContactPage /> },
+  { name: "About", path: "about", element: <AboutPage /> },
 ];
 
 export const authenticUserRoutes = [
-
   {
     name: "Dashboard",
     path: "dashboard",
@@ -64,7 +70,4 @@ export const authenticUserRoutes = [
     path: "bookings",
     element: <Bookings />,
   },
-
-
-
 ];

@@ -75,6 +75,7 @@ const Banner = () => {
                     onSelect={onSelect}
                     onSearch={handleSearch}
                     size="large"
+                    
                   >
                     <Search
                       placeholder="input search text"
@@ -99,7 +100,7 @@ const Banner = () => {
                         borderColor: "#00725A",
                         width: "150px",
                       }}
-                      className="block mx-auto"
+                      className="block mx-auto mt-4"
                     >
                       Book Now
                     </Button>

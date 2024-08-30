@@ -69,7 +69,7 @@ const Navbar = () => {
               </Menu> */}
 
               <Menu
-                className="flex lg:gap-8 lg:text-[18px]"
+                className="flex lg:gap-3 lg:text-[18px]"
                 mode="horizontal"
                 items={publicSidebarGenerator(userPaths)}
               />

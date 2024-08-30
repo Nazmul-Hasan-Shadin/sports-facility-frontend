@@ -7,12 +7,34 @@ import { calc } from "antd/es/theme/internal";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { IoLogoFacebook } from "react-icons/io5";
+import { useRegisterUserMutation } from "../redux/feature/auth/authApi";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 const { Title, Text } = Typography;
 
 const Register = () => {
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
+  const navigate=useNavigate()
+  const [createUser]=useRegisterUserMutation()
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const userInfo = {
+      ...data
+    };
+
+    try {
+      const res = await createUser(userInfo).unwrap();
+      console.log(res, "iam token and response");
+
+   
+      if (res?.success) {
+        toast.success("Sing up  successfully");
+        navigate("/login");
+      }
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error?.data?.message);
+    }
   };
+
   return (
     <Row justify={"center"} align={"middle"}>
       <Col

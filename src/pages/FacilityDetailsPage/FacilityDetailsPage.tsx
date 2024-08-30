@@ -71,8 +71,8 @@ const FacilityDetailsPage = () => {
       return;
     }
 
-    navigate("/pay", {
-      state: { selectedTime, facilityId, selectedDate ,pricePerHour:singleFacility?.data?.pricePerHour},
+    navigate("/bookingForm", {
+      state: { selectedTime, facilityId, selectedDate, pricePerHour: singleFacility?.data?.pricePerHour },
     });
   };
 
@@ -102,6 +102,12 @@ const FacilityDetailsPage = () => {
             <div className="mt-8">
               <Title level={5}>Pitch Type: Turf, Venue Type: Outdoor</Title>
               <Text>Opening Hours: 04:00 PM - 11:59 PM</Text>
+              <Text className="block mt-4">
+                {singleFacility?.data?.description}
+              </Text>
+              <Text  className="block mt-2 font-bold text-orange-400">
+                Price: ${singleFacility?.data?.pricePerHour} per hour
+              </Text>
             </div>
 
             {/* Dynamic banner */}
@@ -149,13 +155,25 @@ const FacilityDetailsPage = () => {
           <div className="space-y-4">
             {availableSlot?.data && availableSlot.data.length > 0 ? (
               <div>
-                <Row justify="center" align="middle" gutter={[22, 0]}>
+                <Row
+                  justify="center"
+                  align="middle"
+                  gutter={[22, 0]}
+                  className="responsive-available-time"
+                >
                   {availableSlot.data.map((slot) => (
-                    <Col span={3} key={slot._id}>
+                    <Col
+                      xs={12}
+                      sm={8}
+                      md={6}
+                      lg={4}
+                      key={slot._id}
+                      className="mb-4"
+                    >
                       <Button
                         onClick={() => handleTimeSelection(slot)}
                         type="primary"
-                        className={`bg-secondary ${
+                        className={`bg-secondary w-full ${
                           selectedTime &&
                           selectedTime.startTime === slot.startTime &&
                           selectedTime.endTime === slot.endTime

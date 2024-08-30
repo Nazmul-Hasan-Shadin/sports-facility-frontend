@@ -13,12 +13,14 @@ import { VerifyToken } from "../utils/VerifyToken";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { setUser } from "../redux/feature/auth/authSlice";
 import { useNavigate } from "react-router-dom";
+
 const { Title, Text } = Typography;
 
 const Login = () => {
   const navigate = useNavigate();
   const [login] = useLoginMutation();
   const dispatch = useAppDispatch();
+  
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const userInfo = {
       email: data.email,
@@ -32,15 +34,15 @@ const Login = () => {
       const verifyToken = VerifyToken(res?.token);
       dispatch(setUser({ user: verifyToken, token: res?.token }));
       if (res?.success) {
-        toast.success("Logged in successful");
+        toast.success("Logged in successfully");
         navigate("/");
       }
     } catch (error: any) {
       console.log(error);
-
       toast.error(error?.data?.message);
     }
   };
+
   return (
     <Row
       justify={"center"}
@@ -55,7 +57,7 @@ const Login = () => {
         style={{ minWidth: "300px" }}
       >
         <SFform onSubmit={onSubmit}>
-          <Title style={{ color: "#00725A" }} level={2} className="text-white">
+          <Title style={{ color: "#00725A" }} level={2}>
             Sign In
           </Title>
           <Row gutter={[0, 20]}>
@@ -80,7 +82,7 @@ const Login = () => {
             </Col>
 
             <Col span={24}>
-              <Form.Item className="">
+              <Form.Item>
                 <Button
                   type="primary"
                   htmlType="submit"
@@ -94,9 +96,23 @@ const Login = () => {
                 </Button>
               </Form.Item>
             </Col>
+
+            {/* Register Button */}
             <Col span={24}>
-              <Divider style={{ marginTop: "-18px" }}>sign up</Divider>
-              <Divider style={{ marginTop: "-0px" }}>or</Divider>
+              <Button
+                type="default"
+                onClick={() => navigate('/register')}
+                style={{
+                  width: "100%",
+                  marginBottom: "20px",
+                }}
+              >
+                Register
+              </Button>
+            </Col>
+
+            <Col span={24}>
+              <Divider style={{ marginTop: "-18px" }}>or sign up with</Divider>
               <div className="flex justify-center ">
                 <Space align="center" className="text-2xl" size={"large"}>
                   <FaGithub />

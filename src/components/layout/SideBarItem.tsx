@@ -14,8 +14,6 @@ import { VerifyToken } from "../../utils/VerifyToken";
 import { TUser } from "../../types";
 import { adminPath } from "../../routes/route.admin";
 
-
-
 const userRole = {
   USER: "user",
   ADMIN: "admin",
@@ -24,30 +22,30 @@ const userRole = {
 const SideBarItem = () => {
   const token = useAppSelector(selectCurrentToken);
   let user;
-  
 
   if (token) {
     user = VerifyToken(token);
   }
 
-
   let sidebarItems;
 
   switch ((user as TUser).role) {
     case userRole.USER:
-      sidebarItems= publicSidebarGenerator(authenticUserRoutes,userRole.USER)
-      
+      sidebarItems = publicSidebarGenerator(authenticUserRoutes, userRole.USER);
+
       break;
-      case userRole.ADMIN:
-        sidebarItems= publicSidebarGenerator(adminPath,userRole.ADMIN)
-        sidebarItems=[...sidebarItems, {key:'joy',label: <NavLink to={'/'}>Home</NavLink>,}]
-        
-        break;
-        
+    case userRole.ADMIN:
+      sidebarItems = publicSidebarGenerator(adminPath, userRole.ADMIN);
+      sidebarItems = [
+        ...sidebarItems,
+        { key: "joy", label: <NavLink to={"/"}>Home</NavLink> },
+      ];
+
+      break;
+
     default:
       break;
   }
-  
 
   return (
     <Sider

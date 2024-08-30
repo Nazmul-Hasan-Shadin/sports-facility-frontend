@@ -1,66 +1,105 @@
-import React from 'react';
-import { Row, Col, Typography, Space, Divider } from 'antd';
-import { FaFacebookF, FaTwitter, FaInstagram } from 'react-icons/fa';
-
-const { Text, Title } = Typography;
+import { Link } from 'react-router-dom';
+import { FaFacebookF, FaTwitter, FaYoutube } from 'react-icons/fa';
 
 const Footer = () => {
-  return (
-    <footer className="bg-[#00725A] text-white py-10 px-8 flex justify-center">
-     <div>
-     <Row gutter={[32, 32]} justify="center" className="">
-        {/* Logo and About Section */}
-        <Col xs={24} md={8}>
-          <Title level={4} className="text-white font-semibold">
-            Sportify Booking
-          </Title>
-          <Text className="text-gray-200 block mt-2">
-            Your one-stop platform for booking top sports facilities with ease and convenience. Enjoy a seamless booking experience with us.
-          </Text>
-        </Col>
+    return (
+        <footer className="bg-teal-900 text-white py-10">
+            <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                {/* Links Section */}
+                <div>
+                    <h2 className="text-xl font-semibold mb-4">Links</h2>
+                    <ul className="space-y-2">
+                        <li>
+                            <Link to="/about" className="text-sm hover:underline">About Us</Link>
+                        </li>
+                        <li>
+                            <Link to="/contact" className="text-sm hover:underline">Contact</Link>
+                        </li>
+                    </ul>
+                </div>
 
-        {/* Quick Links Section */}
-        <Col xs={24} md={8}>
-          <Title level={4} className="text-white font-semibold">
-            Quick Links
-          </Title>
-          <Space direction="vertical" size="small" className="mt-2">
-            <Text className="text-gray-300 cursor-pointer hover:text-[#FFA500] transition-all duration-300">Home</Text>
-            <Text className="text-gray-300 cursor-pointer hover:text-[#FFA500] transition-all duration-300">About Us</Text>
-            <Text className="text-gray-300 cursor-pointer hover:text-[#FFA500] transition-all duration-300">Facilities</Text>
-            <Text className="text-gray-300 cursor-pointer hover:text-[#FFA500] transition-all duration-300">Contact</Text>
-          </Space>
-        </Col>
+                {/* All Contacts Section */}
+                <div>
+                    <h2 className="text-xl font-semibold mb-4">ALL CONTACTS</h2>
+                    <p className="flex items-center mb-4">
+                        <i className="fas fa-map-marker-alt mr-2"></i> 111 8th Ave, New York U.S.A.
+                    </p>
+                    <p className="flex items-center mb-4">
+                        <i className="fas fa-phone-alt mr-2"></i> Office +1-202-555-0153
+                    </p>
+                    <p className="flex items-center mb-4">
+                        <i className="fas fa-envelope mr-2"></i> shadin@tennisclub.com
+                    </p>
+                    <p className="flex items-center">
+                        <i className="fas fa-clock mr-2"></i> 08 am – 06 pm Sunday closed
+                    </p>
+                </div>
 
-        {/* Social Media Section */}
-        <Col xs={24} md={8}>
-          <Title level={4} className="text-white font-semibold">
-            Follow Us
-          </Title>
-          <Space size="middle" className="mt-2">
-            <a href="#" className="text-white hover:text-[#FFA500] transition-all duration-300">
-              <FaFacebookF size={20} />
-            </a>
-            <a href="#" className="text-white hover:text-[#FFA500] transition-all duration-300">
-              <FaTwitter size={20} />
-            </a>
-            <a href="#" className="text-white hover:text-[#FFA500] transition-all duration-300">
-              <FaInstagram size={20} />
-            </a>
-          </Space>
-        </Col>
-      </Row>
-      <Divider className="bg-gray-400 opacity-50 my-8" />
-      <Row justify="center">
-        <Col>
-          <Text className="text-gray-300">
-            © {new Date().getFullYear()} Sportify Booking. All rights reserved.
-          </Text>
-        </Col>
-      </Row>
-     </div>
-    </footer>
-  );
+                {/* Subscribe Section */}
+                <div>
+                    <h2 className="text-xl font-semibold mb-4">SUBSCRIBE</h2>
+                    <p className="text-sm mb-6">
+                       keep focus on our website we regudlary offere incredbly price . Just stay tune.
+                    </p>
+                    <form className="flex">
+                        <input
+                            type="email"
+                            placeholder="Insert Your Email"
+                            className="p-2 w-full text-gray-800 focus:outline-none"
+                        />
+                        <button
+                            type="submit"
+                            className="bg-yellow-500 text-white px-6 py-2 ml-2"
+                        >
+                            SEND
+                        </button>
+                    </form>
+                </div>
+
+                {/* Gallery Section */}
+                <div>
+                    <h2 className="text-xl font-semibold mb-4">GALLERY</h2>
+                    <div className="grid grid-cols-3 gap-2">
+                     
+                        <img src="image1.jpg" alt="Gallery 1" className="w-full h-auto" />
+                        <img src="image2.jpg" alt="Gallery 2" className="w-full h-auto" />
+                        <img src="image3.jpg" alt="Gallery 3" className="w-full h-auto" />
+                        <img src="image4.jpg" alt="Gallery 4" className="w-full h-auto" />
+                        <img src="image5.jpg" alt="Gallery 5" className="w-full h-auto" />
+                        <img src="image6.jpg" alt="Gallery 6" className="w-full h-auto" />
+                        <img src="image7.jpg" alt="Gallery 7" className="w-full h-auto" />
+                        <img src="image8.jpg" alt="Gallery 8" className="w-full h-auto" />
+                    </div>
+                </div>
+            </div>
+
+            <div className="border-t border-teal-800 mt-10 pt-6">
+                <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-xs">
+                    <p className="mb-4 md:mb-0">© Made by Nazmul Hasan Shadin</p>
+                    <div className="flex space-x-4">
+                        <a href="mailto:info@atptheme.com">info@atptheme.com</a>
+                        <a href="mailto:courses@atptheme.com">sprots@atptheme.com</a>
+                        <a href="mailto:book@atptheme.com">book@atptheme.com</a>
+                    </div>
+                </div>
+            </div>
+
+            {/* Social Media Section */}
+            <div className="bg-teal-800 py-6">
+                <div className="container mx-auto px-4 flex justify-center space-x-4">
+                    <a href="https://www.facebook.com" aria-label="Facebook" className="text-white hover:text-yellow-500">
+                        <FaFacebookF className="text-xl" />
+                    </a>
+                    <a href="https://twitter.com" aria-label="Twitter" className="text-white hover:text-yellow-500">
+                        <FaTwitter className="text-xl" />
+                    </a>
+                    <a href="https://www.youtube.com" aria-label="YouTube" className="text-white hover:text-yellow-500">
+                        <FaYoutube className="text-xl" />
+                    </a>
+                </div>
+            </div>
+        </footer>
+    );
 };
 
 export default Footer;

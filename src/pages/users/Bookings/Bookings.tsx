@@ -16,7 +16,7 @@ const Bookings: React.FC = () => {
   const handleDelete = async (id: React.Key) => {
     try {
       await removeBookin(id).unwrap();
-      refetch(); // Optionally refetch the bookings list after deletion
+      refetch(); 
     } catch (error) {
       console.error("Failed to delete booking:", error);
     }
@@ -28,7 +28,7 @@ const Bookings: React.FC = () => {
       dataIndex: "name",
       key: "name",
       width: 150,
-      render: (text) => <a style={{ color: "#00725A" }}>{text}</a>, // Primary color for name links
+      render: (text) => <a style={{ color: "#00725A" }}>{text}</a>, 
     },
     {
       title: "Start Time",

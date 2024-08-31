@@ -12,13 +12,14 @@ const CheckOutForm = () => {
   const elements = useElements();
 
   const location = useLocation();
-  const { pricePerHour, facilityId, selectedDate, selectedTime } = location.state || {};
+  const { pricePerHour, facilityId, selectedDate, selectedTime } =
+    location.state || {};
 
   useEffect(() => {
     const fetchClientSecret = async () => {
       try {
         const response = await fetch(
-          "https://facility-booking-platform.vercel.app/create-payment-intent",
+          "https://facility-booking-platform.vercel.app/api/create-payment-intent",
           {
             method: "POST",
             headers: {
@@ -55,26 +56,32 @@ const CheckOutForm = () => {
 
     if (error) {
       console.log("[error]", error);
-      setError(error.message || "An error occurred while creating the payment method.");
+      setError(
+        error.message || "An error occurred while creating the payment method."
+      );
       return;
     }
 
-    const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: card,
-        billing_details: {
-          name: "testbro",
+    const { paymentIntent, error: confirmError } =
+      await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: card,
+          billing_details: {
+            name: "testbro",
+          },
         },
-      },
-    });
+      });
 
     if (confirmError) {
       console.log("confirm error", confirmError);
-      setError(confirmError.message || "An error occurred while confirming the payment.");
+      setError(
+        confirmError.message ||
+          "An error occurred while confirming the payment."
+      );
       return;
     }
 
-    if (paymentIntent.status === "succeeded") {
+    if (paymentIntent?.status === "succeeded") {
       toast.success(`$${pricePerHour} payment successful`);
 
       try {
@@ -85,15 +92,21 @@ const CheckOutForm = () => {
           startTime: selectedTime.startTime,
           endTime: selectedTime.endTime,
           price: pricePerHour,
-          isBooked: 'confirmed',
+          isBooked: "confirmed",
         };
 
         await makeBookings(bookingData).unwrap();
         toast.success("Booking created successfully!");
-      } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
-        console.error("Error creating booking:", errorMessage);
-        toast.error(errorMessage);
+      } catch (error: unknown) {
+        console.log("Booking creation error:", error);
+
+        // Handle specific error structures
+        if (typeof error === "object" && error !== null && "data" in error) {
+          const err = error as { data: { message: string } };
+          toast.error(err.data.message);
+        } else {
+          toast.error("An unknown error occurred while creating the booking.");
+        }
       }
     }
   };

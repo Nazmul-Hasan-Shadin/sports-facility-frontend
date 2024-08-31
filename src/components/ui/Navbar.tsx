@@ -56,7 +56,7 @@ const Navbar = () => {
             </div>
             <div className="hidden md:flex">
               <Menu
-                className="flex lg:gap-3 lg:text-[18px]"
+                className="flex lg:gap-3 text-[16px]"
                 mode="horizontal"
                 items={sidebarItems}
               />
@@ -71,10 +71,23 @@ const Navbar = () => {
                 style={{ background: "transparent" }}
                 className="mt-12 z-50"
               >
-                <Menu
-                  mode="vertical"
-                  items={sidebarItems}
-                />
+                <Menu mode="vertical" items={sidebarItems} />
+                <div className="mt-4 flex justify-center">
+                  {!isAuthenticated ? (
+                    <>
+                      <Button type="default" danger className="mr-2">
+                        <NavLink to="/login">Login</NavLink>
+                      </Button>
+                      <Button type="primary" className="bg-[#F2A922]">
+                        <NavLink to="/register">Register</NavLink>
+                      </Button>
+                    </>
+                  ) : (
+                    <Button type="default" danger onClick={handleLogout}>
+                      Logout
+                    </Button>
+                  )}
+                </div>
               </Drawer>
             </div>
             <div className="flex gap-3">

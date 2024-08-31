@@ -38,6 +38,7 @@ const FacilityCard = ({ facility }: TFacilityProps) => {
               src={image}
               alt={name}
               style={{ width: "100%", height: "160px", objectFit: "contain" }}
+          
             />
           </Col>
           {/* Content Section */}

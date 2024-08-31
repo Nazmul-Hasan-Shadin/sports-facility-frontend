@@ -1,15 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Calendar, Card, Col, Rate, Row, Space, Typography } from "antd";
-import "./FacilityDetailsPage.css";
 import { FaLocationCrosshairs } from "react-icons/fa6";
 import { useNavigate, useParams } from "react-router-dom";
-import type { CalendarProps } from "antd";
-import type { Dayjs } from "dayjs";
-import {
-  useCheckFacilityAvailabilityQuery,
-  useGetSingleFacilityQuery,
-} from "../../redux/feature/facillity/facility.auth.api";
+import { useCheckFacilityAvailabilityQuery, useGetSingleFacilityQuery } from "../../redux/feature/facillity/facility.auth.api";
 import FacilityBanner from "../../components/ui/FacilityBanner/FacilityBanner";
+import dayjs, { Dayjs } from 'dayjs';
 
 const { Title, Text } = Typography;
 
@@ -38,18 +33,28 @@ const FacilityDetailsPage: React.FC = () => {
   const { data: singleFacility, isLoading: singleFacilityLoading } =
     useGetSingleFacilityQuery(facilityId);
 
-  const { data: availableSlot, isLoading } = useCheckFacilityAvailabilityQuery(
+  const { data: availableSlot, isLoading, refetch } = useCheckFacilityAvailabilityQuery(
     dataParams,
     {
       skip: !selectedDate || !shouldFetchSlots,
     }
   );
 
+  useEffect(() => {
+    if (shouldFetchSlots) {
+      const intervalId = setInterval(() => {
+        refetch();
+      }, 2000);
+
+      return () => clearInterval(intervalId);
+    }
+  }, [shouldFetchSlots, refetch]);
+
   if (isLoading || singleFacilityLoading) {
-    return <h2>loading</h2>;
+    return <h2>Loading...</h2>;
   }
 
-  const onPanelChange = (value: Dayjs) => {
+  const onPanelChange = (value:Dayjs) => {
     const formattedDate = value.format("YYYY-MM-DD");
     setSelectedDate(formattedDate);
   };
@@ -63,6 +68,11 @@ const FacilityDetailsPage: React.FC = () => {
       alert("Please select a time slot before booking.");
       return;
     }
+
+    // Clear the selected time and refetch available slots
+    setSelectedTime(null);
+    setShouldFetchSlots(false);
+    refetch();
 
     navigate("/bookingForm", {
       state: {
@@ -188,6 +198,7 @@ const FacilityDetailsPage: React.FC = () => {
                     type="primary"
                     className="bg-primary text-white"
                     onClick={handleBooking}
+                    disabled={!selectedTime}
                   >
                     Book Now
                   </Button>

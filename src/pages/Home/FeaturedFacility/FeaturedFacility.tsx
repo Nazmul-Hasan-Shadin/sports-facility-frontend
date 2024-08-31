@@ -48,12 +48,23 @@ const FeaturedFacility = ({ facility }: TFacilityProps) => {
               <Rate
                 className="text-sm"
                 allowHalf
-                defaultValue={ 3}
+                defaultValue={3}
                 disabled
               />
             </div>
           }
-          description={<p className="text-gray-600 mt-2">{description}</p>}
+          description={
+            <div className="text-gray-600 mt-2" style={{
+              height: '4.5em', /* Approximate height for 3 lines */
+              overflow: 'hidden',
+              display: '-webkit-box',
+              WebkitBoxOrient: 'vertical',
+              WebkitLineClamp: 3,
+              textOverflow: 'ellipsis'
+            }}>
+              {description}
+            </div>
+          }
         />
         <Link to={`/facility/${_id}`}>
           <Button

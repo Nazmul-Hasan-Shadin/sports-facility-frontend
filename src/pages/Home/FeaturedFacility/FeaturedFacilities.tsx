@@ -24,7 +24,7 @@ const FeaturedFacilities = () => {
       <Container>
       <Title className="text-start">Featured Facility</Title>
       <Row gutter={12}>
-        {featuredFacility?.data?.map((facility: TFacility) => (
+        {featuredFacility?.data?.slice(0,4).map((facility: TFacility) => (
           <FeaturedFacility facility={facility} key={facility._id} />
         ))}
       </Row>

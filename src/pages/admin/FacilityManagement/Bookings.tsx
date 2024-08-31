@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Popconfirm, Table } from "antd";
 import type { TableColumnsType } from "antd";
 import { useGetAllBookingsQuery, useGetUsersBookinsQuery } from "../../../redux/feature/Bookings/auth.bookings.api";
+import { TBooking } from "../../../types/booking.types";
 
 interface DataType {
   key: React.Key;
@@ -60,10 +61,10 @@ const columns: TableColumnsType<DataType> = [
 ];
 
 const Bookings: React.FC = () => {
-  const { data: allBookings } = useGetAllBookingsQuery();
+  const { data: allBookings } = useGetAllBookingsQuery(undefined);
 
   const data: DataType[] =
-    allBookings?.data.map(({ facility,date ,startTime,endTime, payableAmount,_id }) => ({
+    allBookings?.data.map(({ facility,date ,startTime,endTime, payableAmount,_id }:TBooking) => ({
       key:_id,
       ...facility,
       startTime,

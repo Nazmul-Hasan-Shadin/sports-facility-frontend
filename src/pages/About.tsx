@@ -20,6 +20,7 @@ import team1 from "../assets/images/TeamImage/team1.jpg";
 import team2 from "../assets/images/TeamImage/team2.jpg";
 import team3 from "../assets/images/TeamImage/team3.jpg";
 import mileStoneSuccess from "../assets/images/TeamImage/Milestone-Success.jpg";
+import ScrollToTopButton from "../components/ui/ScrollToTop/ScrollToTop";
 
 const { Title, Paragraph } = Typography;
 const { Header, Content, Footer } = Layout;
@@ -260,17 +261,13 @@ const AboutPage = () => {
                       <Title level={5} style={{ color: "#00725A" }}>
                         2017
                       </Title>
-                      <Paragraph>
-                        Expanded to 100 sports facilities.
-                      </Paragraph>
+                      <Paragraph>Expanded to 100 sports facilities.</Paragraph>
                     </Timeline.Item>
                     <Timeline.Item color="green">
                       <Title level={5} style={{ color: "#00725A" }}>
                         2020
                       </Title>
-                      <Paragraph>
-                        Reached 10,000 registered users.
-                      </Paragraph>
+                      <Paragraph>Reached 10,000 registered users.</Paragraph>
                     </Timeline.Item>
                     <Timeline.Item color="green">
                       <Title level={5} style={{ color: "#00725A" }}>
@@ -363,6 +360,7 @@ const AboutPage = () => {
       >
         Sports Facility Booking Platform ©2024 Created by Nazmul Hasan Shadin
       </Footer>
+      <ScrollToTopButton></ScrollToTopButton>
     </Layout>
   );
 };

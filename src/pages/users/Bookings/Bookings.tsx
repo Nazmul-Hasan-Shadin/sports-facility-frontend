@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Popconfirm, Table } from "antd";
 import type { TableColumnsType } from "antd";
 import { useGetUsersBookinsQuery, useRemoveBookingMutation } from "../../../redux/feature/Bookings/auth.bookings.api";
+import { TBooking } from "../../../types/booking.types";
 
 interface DataType {
   key: React.Key;
@@ -68,7 +69,7 @@ const Bookings: React.FC = () => {
           }
         >
           <Button type="link" style={{ color: "red" }}>
-            Delete
+          Cancel
           </Button>
         </Popconfirm>
       ),
@@ -78,7 +79,7 @@ const Bookings: React.FC = () => {
 
   const data: DataType[] =
     allBookings?.data.map(
-      ({ facility, startTime, date, payableAmount,_id }) => ({
+      ({ facility, startTime, date, payableAmount,_id }:TBooking) => ({
         key: _id,
         ...facility,
         startTime,

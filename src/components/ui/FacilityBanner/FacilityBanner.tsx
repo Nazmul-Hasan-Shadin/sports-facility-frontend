@@ -8,7 +8,7 @@ import "swiper/css/navigation";
 
 // import required modules
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
-const FacilityBanner = ({image1,image2}) => {
+const FacilityBanner = ({image1,image2}:{image1:string,image2:string}) => {
   return (
     <>
       <Swiper

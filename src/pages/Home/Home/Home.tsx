@@ -17,6 +17,7 @@ const Home = () => {
       <HistoryMilestones/>
       <TestimonialsSlider/>
       <ScrollToTopButton></ScrollToTopButton>
+      
       <Footer/>
     </div>
   );

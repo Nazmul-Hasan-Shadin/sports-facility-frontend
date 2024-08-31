@@ -1,12 +1,24 @@
 import React from "react";
-import { Card, Col, Row, Typography, Rate, Button } from "antd";
-import { FaUserFriends } from "react-icons/fa"; // For 6v6 icon or similar icons
-import { TFacility } from "../../types";
+import { Card, Col, Row, Typography, Button } from "antd";
+import { FaUserFriends } from "react-icons/fa";
 import { Link } from "react-router-dom";
 const { Title, Text } = Typography;
 
-const FacilityCard = ({ facility }) => {
-  const { description, name, pricePerHour ,image,_id} = facility;
+type TFacilityProps = {
+  facility: {
+    _id: string;
+    name: string;
+    description: string;
+    pricePerHour: number;
+    location: string;
+    image?: string;
+    isDeleted: boolean;
+  };
+};
+
+const FacilityCard = ({ facility }: TFacilityProps) => {
+  const { description, name, pricePerHour, image, _id } = facility;
+
   return (
     <Col>
       <Card
@@ -24,7 +36,7 @@ const FacilityCard = ({ facility }) => {
           <Col xs={7} md={8}>
             <img
               src={image}
-              alt="The Village Football"
+              alt={name}
               style={{ width: "100%", height: "160px", objectFit: "contain" }}
             />
           </Col>
@@ -32,14 +44,11 @@ const FacilityCard = ({ facility }) => {
           <Col xs={12} md={12}>
             <div className="flex flex-col justify-between h-full space-y-6">
               <div className="flex justify-between items-center mb-1">
-                <Title level={5}  className="mb-0">
-                 {name}
+                <Title level={5} className="mb-0">
+                  {name}
                 </Title>
                 <div className="flex items-center">
-                  {
-                    <Text  className="font-bold"> $ {  pricePerHour }</Text>
-                  }
-                 
+                  <Text className="font-bold"> ${pricePerHour}</Text>
                 </div>
               </div>
               <div className="flex items-center mb-1">
@@ -48,18 +57,18 @@ const FacilityCard = ({ facility }) => {
               </div>
 
               <Link to={`/facility/${_id}`}>
-              <Button
-                type="default"
-                className="bg-gray-200 text-green-700"
-                style={{
-                  padding: "0 10px",
-                  borderRadius: "4px",
-                  fontSize: "14px",
-                  fontWeight: "bold",
-                }}
-              >
-                Book From <span style={{ color: "#1a9500" }}>View Details</span>
-              </Button>
+                <Button
+                  type="default"
+                  className="bg-gray-200 text-green-700"
+                  style={{
+                    padding: "0 10px",
+                    borderRadius: "4px",
+                    fontSize: "14px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  View Details
+                </Button>
               </Link>
             </div>
           </Col>

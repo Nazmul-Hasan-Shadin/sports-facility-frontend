@@ -1,24 +1,24 @@
 import { NavLink } from "react-router-dom";
-import { ReactNode } from "react";
+import { ReactElement } from "react";
 import { TUserPath } from "../types";
 
 type TSidebarItem = {
   key: string;
-  label: ReactNode;
-  children?: TSidebarItem[];
+  label: ReactElement; // Updated type to ReactElement
+  children?: TSidebarItem[] | undefined;
 };
 
 // Public Sidebar Generator
-export const publicSidebarGenerator = (items: TUserPath[], role: string) => {
+export const publicSidebarGenerator = (items: TUserPath[], role?: string) => {
   const SideBarItems = items.reduce((acc: TSidebarItem[], item) => {
     let path;
     if (item.name === "Home") {
-      path = "/"; 
+      path = "/";
     } else {
       path = role ? `/${role}/${item.path}` : item.path;
     }
 
-    if (item.path && item.element && item.name !=='') {
+    if (item.path && item.element && item.name !== "") {
       acc.push({
         key: item.path,
         label: (
@@ -31,61 +31,24 @@ export const publicSidebarGenerator = (items: TUserPath[], role: string) => {
 
     if (item.children) {
       acc.push({
-        key: item.name ,
-        label: item.name,
-        children: item.children.map((child) => {
-          if (child.name) {
-            return {
-              key: child.name,
-              label: (
-                <NavLink to={`/${role}/${child.path}`}>{child.name}</NavLink>
-              ),
-            };
-          }
-        }),
+        key: item.name!,
+        label: <>{item.name}</>, // Wrap label in a fragment to ensure it's a ReactElement
+        children: item.children
+          .map((child) => {
+            if (child.name && child.path) {
+              return {
+                key: child.path!,
+                label: (
+                  <NavLink to={`/${role ? `${role}/` : ""}${child.path}`}>
+                    {child.name}
+                  </NavLink>
+                ),
+              };
+            }
+            return undefined; // Ensure that we return undefined for non-matching items
+          })
+          .filter((child): child is TSidebarItem => child !== undefined), // Filter out undefined values
       });
-    }
-
-    return acc;
-  }, []);
-
-  return SideBarItems;
-};
-
-// Private Sidebar Generator
-export const privateSidebarGenerator = (items: TUserPath[], role: string) => {
-  const cleanPath = (path: string) => path.replace(/^\/*/, ""); // Remove leading slashes
-
-  const SideBarItems = items.reduce((acc: TSidebarItem[], item) => {
-    if (item.path && item.element) {
-      const itemPath = `/${cleanPath(role)}/${cleanPath(item.path)}`;
-      acc.push({
-        key: item.path,
-        label: <NavLink to={itemPath}>{item.name}</NavLink>,
-      });
-    }
-
-    if (item.children) {
-      const childItems = item.children
-        .map((child) => {
-          if (child.name && child.path) {
-            const childPath = `/${cleanPath(role)}/${cleanPath(child.path)}`;
-            return {
-              key: child.name,
-              label: <NavLink to={childPath}>{child.name}</NavLink>,
-            };
-          }
-          return null;
-        })
-        .filter(Boolean) as TSidebarItem[];
-
-      if (childItems.length > 0) {
-        acc.push({
-          key: item.name!,
-          label: item.name,
-          children: childItems,
-        });
-      }
     }
 
     return acc;

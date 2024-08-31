@@ -1,7 +1,20 @@
 import { Button, Card, Col, Rate } from "antd";
 import { Link } from "react-router-dom";
+import { TFacility } from "../../../types";
 
-const FeaturedFacility = ({ facility }) => {
+type TFacilityProps = {
+  facility: {
+    _id: string;
+    name: string;
+    description: string;
+    pricePerHour: number;
+    image?: string | undefined;
+    location: string;
+    isDeleted: boolean;
+  };
+};
+
+const FeaturedFacility = ({ facility }: TFacilityProps) => {
   const { name, description, _id, image } = facility;
 
   return (
@@ -35,7 +48,7 @@ const FeaturedFacility = ({ facility }) => {
               <Rate
                 className="text-sm"
                 allowHalf
-                defaultValue={facility.rating || 3}
+                defaultValue={ 3}
                 disabled
               />
             </div>

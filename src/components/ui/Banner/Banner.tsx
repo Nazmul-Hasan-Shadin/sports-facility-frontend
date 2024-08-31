@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useLazyGetAllFacilityQuery } from "../../../redux/feature/facillity/facility.auth.api";
 import { Link, useNavigate } from "react-router-dom";
 import Container from "../../../Container/Container";
+import { TFacility } from "../../../types";
 type SearchProps = GetProps<typeof Input.Search>;
 
 const Banner = () => {
@@ -23,7 +24,7 @@ const Banner = () => {
 
   const [options, setOptions] = useState<AutoCompleteProps["options"]>([]);
 
-  const handleSearch = (value) => {
+  const handleSearch = (value:string) => {
     if (value) {
       getFacilities({ searchTerm: value, limit: 10, page: 1 });
     } else {
@@ -37,7 +38,7 @@ const Banner = () => {
 
   useEffect(() => {
     if (featuredFacility?.data) {
-      const results = featuredFacility.data.map((facility) => ({
+      const results = featuredFacility.data.map((facility:TFacility) => ({
         value: facility.name,
         label: (
           <div className="flex justify-between">

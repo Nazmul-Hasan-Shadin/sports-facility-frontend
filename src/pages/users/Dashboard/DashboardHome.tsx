@@ -7,7 +7,8 @@ import { useGetUserByEmailQuery } from '../../../redux/feature/auth/authApi';
 const { Title, Text } = Typography;
 
 const DashboardHome = () => {
-  const { email } = useAppSelector(selectCurrentUser);
+  const currentUser = useAppSelector(selectCurrentUser);
+  const email = currentUser?.email; 
   const { data: userInfo } = useGetUserByEmailQuery(email);
   console.log(userInfo);
   

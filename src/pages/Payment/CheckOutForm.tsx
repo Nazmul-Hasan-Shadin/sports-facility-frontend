@@ -7,7 +7,7 @@ import { useCreateBookingMutation } from "../../redux/feature/Bookings/auth.book
 const CheckOutForm = () => {
   const [makeBookings] = useCreateBookingMutation();
   const [clientSecret, setClientSecret] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string | null>(null);
   const stripe = useStripe();
   const elements = useElements();
 
@@ -18,7 +18,7 @@ const CheckOutForm = () => {
     const fetchClientSecret = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/create-payment-intent",
+          "https://facility-booking-platform.vercel.app/create-payment-intent",
           {
             method: "POST",
             headers: {
@@ -80,20 +80,20 @@ const CheckOutForm = () => {
       try {
         // Send booking information to the server
         const bookingData = {
-          facility:facilityId,
+          facility: facilityId,
           date: selectedDate,
           startTime: selectedTime.startTime,
-          endTime:selectedTime.endTime,
+          endTime: selectedTime.endTime,
           price: pricePerHour,
-          isBooked:'confirmed'
-         
+          isBooked: 'confirmed',
         };
 
         await makeBookings(bookingData).unwrap();
         toast.success("Booking created successfully!");
       } catch (error) {
-        console.error("Error creating booking:", error);
-        toast.error(error?.message);
+        const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+        console.error("Error creating booking:", errorMessage);
+        toast.error(errorMessage);
       }
     }
   };

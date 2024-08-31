@@ -5,7 +5,7 @@ import {
   UserOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { publicSidebarGenerator } from "../../utils/topbarGenerator";
 import { authenticUserRoutes } from "../../routes/route.user";
 import { useAppSelector } from "../../redux/hook";
@@ -15,6 +15,7 @@ import { TUser } from "../../types";
 import { adminPath } from "../../routes/route.admin";
 import ProtectedRoute from "./ProtectedRoute";
 import DashboardLayout from "./DashboardLayout";
+import { useEffect } from "react";
 
 const userRole = {
   USER: "user",
@@ -22,8 +23,11 @@ const userRole = {
 };
 
 const SideBarItem = () => {
+
   const token = useAppSelector(selectCurrentToken);
   let user;
+
+  
 
   if (token) {
     user = VerifyToken(token);

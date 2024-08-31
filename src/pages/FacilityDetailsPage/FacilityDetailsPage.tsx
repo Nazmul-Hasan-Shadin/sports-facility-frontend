@@ -1,19 +1,8 @@
-import {
-  Button,
-  Calendar,
-  Card,
-  Col,
-  Rate,
-  Row,
-  Space,
-  Typography,
-} from "antd";
-import "./FacilityDetailsPage.css";
 import React, { useState } from "react";
+import { Button, Calendar, Card, Col, Rate, Row, Space, Typography } from "antd";
+import "./FacilityDetailsPage.css";
 import { FaLocationCrosshairs } from "react-icons/fa6";
 import { useNavigate, useParams } from "react-router-dom";
-const { Title, Text } = Typography;
-
 import type { CalendarProps } from "antd";
 import type { Dayjs } from "dayjs";
 import {
@@ -22,9 +11,17 @@ import {
 } from "../../redux/feature/facillity/facility.auth.api";
 import FacilityBanner from "../../components/ui/FacilityBanner/FacilityBanner";
 
-const FacilityDetailsPage = () => {
+const { Title, Text } = Typography;
+
+interface TimeSlot {
+  _id: string;
+  startTime: string;
+  endTime: string;
+}
+
+const FacilityDetailsPage: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const { facilityId } = useParams();
+  const { facilityId } = useParams<{ facilityId: string }>();
   const [selectedTime, setSelectedTime] = useState<{
     startTime: string;
     endTime: string;
@@ -48,20 +45,16 @@ const FacilityDetailsPage = () => {
     }
   );
 
-  if (isLoading) {
+  if (isLoading || singleFacilityLoading) {
     return <h2>loading</h2>;
   }
 
-  if (singleFacilityLoading) {
-    return <h2>loading</h2>;
-  }
-
-  const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>["mode"]) => {
+  const onPanelChange = (value: Dayjs) => {
     const formattedDate = value.format("YYYY-MM-DD");
     setSelectedDate(formattedDate);
   };
 
-  const handleTimeSelection = (slot) => {
+  const handleTimeSelection = (slot: TimeSlot) => {
     setSelectedTime({ startTime: slot.startTime, endTime: slot.endTime });
   };
 
@@ -72,7 +65,12 @@ const FacilityDetailsPage = () => {
     }
 
     navigate("/bookingForm", {
-      state: { selectedTime, facilityId, selectedDate, pricePerHour: singleFacility?.data?.pricePerHour },
+      state: {
+        selectedTime,
+        facilityId,
+        selectedDate,
+        pricePerHour: singleFacility?.data?.pricePerHour,
+      },
     });
   };
 
@@ -90,7 +88,7 @@ const FacilityDetailsPage = () => {
         <Col xs={24} md={16}>
           <Card>
             <div>
-              <Title level={3}> {singleFacility?.data?.name} </Title>
+              <Title level={3}>{singleFacility?.data?.name}</Title>
               <div className="flex items-center gap-3">
                 <Rate className="text-sm" defaultValue={2}></Rate>
                 <Text>33 (Reviews)</Text>
@@ -105,12 +103,11 @@ const FacilityDetailsPage = () => {
               <Text className="block mt-4">
                 {singleFacility?.data?.description}
               </Text>
-              <Text  className="block mt-2 font-bold text-orange-400">
+              <Text className="block mt-2 font-bold text-orange-400">
                 Price: ${singleFacility?.data?.pricePerHour} per hour
               </Text>
             </div>
 
-            {/* Dynamic banner */}
             <FacilityBanner image1={singleFacility?.data?.image} image2={''}></FacilityBanner>
           </Card>
         </Col>
@@ -161,7 +158,7 @@ const FacilityDetailsPage = () => {
                   gutter={[22, 0]}
                   className="responsive-available-time"
                 >
-                  {availableSlot.data.map((slot) => (
+                  {availableSlot.data.map((slot: TimeSlot) => (
                     <Col
                       xs={12}
                       sm={8}

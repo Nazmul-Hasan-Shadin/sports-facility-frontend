@@ -11,6 +11,7 @@ import {
   Card,
 } from "antd";
 import { MailOutlined, PhoneOutlined, GlobalOutlined } from "@ant-design/icons";
+import ScrollToTopButton from "../components/ui/ScrollToTop/ScrollToTop";
 
 const { Title, Text, Paragraph } = Typography;
 const { Header, Content, Footer } = Layout;
@@ -65,6 +66,19 @@ const ContactPage = () => {
                       required: true,
                       type: "email",
                       message: "Please enter a valid email",
+                    },
+                  ]}
+                >
+                  <Input placeholder="Your Email" />
+                </Form.Item>
+                <Form.Item
+                  label="Subject"
+                  name="subject"
+                  rules={[
+                    {
+                      required: true,
+                    
+                      message: "Please enter a valid Subejct",
                     },
                   ]}
                 >
@@ -150,6 +164,7 @@ const ContactPage = () => {
             </Card>
           </Col>
         </Row>
+        <ScrollToTopButton></ScrollToTopButton>
       </Content>
 
       {/* Footer Section */}

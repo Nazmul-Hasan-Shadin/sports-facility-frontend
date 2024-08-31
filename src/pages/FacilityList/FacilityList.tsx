@@ -7,6 +7,7 @@ import type { Dayjs } from "dayjs";
 import Container from "../../Container/Container";
 import { useLazyGetAllFacilityQuery } from "../../redux/feature/facillity/facility.auth.api";
 import { useLocation } from "react-router-dom";
+import ScrollToTopButton from "../../components/ui/ScrollToTop/ScrollToTop";
 
 const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>["mode"]) => {
   console.log(value.format("YYYY-MM-DD"), mode);
@@ -21,17 +22,16 @@ const FacilityList = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
-  const [priceSort,setPriceSort]=useState('')
+  const [priceSort, setPriceSort] = useState("");
 
   const [allFacilities, setAllFacilities] = useState<TFacility[]>([]);
 
-
   useEffect(() => {
-    getFacilities({ searchTerm, limit: 1000, page: 1,sort:priceSort })
+    getFacilities({ searchTerm, limit: 1000, page: 1, sort: priceSort })
       .unwrap()
       .then((response) => setAllFacilities(response.data))
       .catch((error) => console.error("Error fetching facilities:", error));
-  }, [searchTerm, getFacilities,priceSort]);
+  }, [searchTerm, getFacilities, priceSort]);
   const currentFacilities = allFacilities.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize
@@ -43,7 +43,7 @@ const FacilityList = () => {
   };
   const handleChange = (value: string) => {
     console.log(`selected ${value}`);
-    setPriceSort(value)
+    setPriceSort(value);
   };
 
   return (
@@ -92,6 +92,7 @@ const FacilityList = () => {
         />
       </Row>
 
+      <ScrollToTopButton></ScrollToTopButton>
       {/* Pagination Component */}
     </Container>
   );

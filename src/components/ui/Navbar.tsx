@@ -4,8 +4,7 @@ import { useState } from "react";
 import "./Navbar.css";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { NavLink } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-
+import { useDispatch } from "react-redux";
 import { userPaths } from "../../routes/route.user";
 import { publicSidebarGenerator } from "../../utils/topbarGenerator";
 import { logOut, selectCurrentUser } from "../../redux/feature/auth/authSlice";
@@ -31,6 +30,18 @@ const Navbar = () => {
     dispatch(logOut());
   };
 
+  const sidebarItems = publicSidebarGenerator(userPaths);
+
+  // Add dashboard link if user is authenticated
+  if (isAuthenticated?.role) {
+    sidebarItems.push({
+      key: "dashboard",
+      label: (
+        <NavLink to={`${isAuthenticated.role}/dashboard`}>Dashboard</NavLink>
+      ),
+    });
+  }
+
   return (
     <div className="mt-3">
       <Container>
@@ -47,41 +58,25 @@ const Navbar = () => {
               <Menu
                 className="flex lg:gap-3 lg:text-[18px]"
                 mode="horizontal"
-                items={[
-                  ...publicSidebarGenerator(userPaths),
-                  {
-                    key: "Dashbooard",
-
-                    label: (
-                      <NavLink to={`${isAuthenticated?.role}/dashboard`}>
-                        Dashboard
-                      </NavLink>
-                    ),
-                  },
-                ]}
+                items={sidebarItems}
               />
             </div>
-            {/* for small device hide navigation */}
-
             <div className="md:hidden">
               <RxHamburgerMenu className="text-2xl" onClick={showDrawer} />
               <Drawer
-                placement={"top"}
+                placement={placement}
                 closable={false}
                 onClose={onClose}
                 open={open}
                 style={{ background: "transparent" }}
-                className="mt-12"
-                key={placement}
+                className="mt-12 z-50"
               >
                 <Menu
-                  className=""
                   mode="vertical"
-                  items={publicSidebarGenerator(userPaths)}
+                  items={sidebarItems}
                 />
               </Drawer>
             </div>
-
             <div className="flex gap-3">
               {!isAuthenticated ? (
                 <>

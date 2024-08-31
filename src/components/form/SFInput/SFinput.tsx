@@ -8,7 +8,7 @@ type TSFInputProps = {
   label: string;
   className?:string;
   defaultValue?:any;
-  disabled:boolean
+  disabled?:boolean
 };
 
 const SFInput = ({ name, type, label,className ,defaultValue,disabled}: TSFInputProps) => {

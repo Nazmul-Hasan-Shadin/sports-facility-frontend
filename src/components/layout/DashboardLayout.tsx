@@ -3,6 +3,7 @@ import { Layout, Input, Menu, theme, Dropdown, Badge } from "antd";
 import { MailOutlined, BellOutlined, SearchOutlined } from "@ant-design/icons";
 import SideBarItem from "./SideBarItem";
 import { Outlet } from "react-router-dom";
+import ScrollToTopButton from "../ui/ScrollToTop/ScrollToTop";
 
 const { Header, Content, Footer } = Layout;
 const { Search } = Input;
@@ -35,11 +36,11 @@ const DashboardLayout: React.FC = () => {
         <Header
           style={{
             padding: 8,
-            background: '#00725A', // Primary color
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            position: 'sticky',
+            background: "#00725A", // Primary color
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            position: "sticky",
             top: 0,
             zIndex: 1000,
           }}
@@ -47,26 +48,27 @@ const DashboardLayout: React.FC = () => {
           {/* Search on the left side */}
           <Search
             placeholder="Search..."
-            style={{ width: 300,marginLeft:'45px' }}
+            style={{ width: 300, marginLeft: "45px" }}
           />
 
           {/* Icons on the right side */}
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Dropdown overlay={notificationsMenu} trigger={['click']}>
-              <div style={{ color: 'white', margin: '0 16px' }}>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Dropdown overlay={notificationsMenu} trigger={["click"]}>
+              <div style={{ color: "white", margin: "0 16px" }}>
                 <Badge count={5}>
-                  <BellOutlined style={{ fontSize: '20px' }} />
+                  <BellOutlined style={{ fontSize: "20px" }} />
                 </Badge>
               </div>
             </Dropdown>
-            <Dropdown overlay={userMenu} trigger={['click']}>
-              <div style={{ color: 'white', margin: '0 16px' }}>
-                <MailOutlined style={{ fontSize: '20px' }} />
+            <Dropdown overlay={userMenu} trigger={["click"]}>
+              <div style={{ color: "white", margin: "0 16px" }}>
+                <MailOutlined style={{ fontSize: "20px" }} />
               </div>
             </Dropdown>
           </div>
         </Header>
         <Content style={{ margin: "24px 16px 0" }}>
+          
           <div
             style={{
               padding: 24,
@@ -76,6 +78,7 @@ const DashboardLayout: React.FC = () => {
             }}
           >
             <Outlet />
+         
           </div>
         </Content>
         <Footer style={{ textAlign: "center" }}>

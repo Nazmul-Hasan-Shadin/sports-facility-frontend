@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { FaFacebookF, FaTwitter, FaYoutube } from 'react-icons/fa';
-
+import galley1 from '../../assets/images/gallery/footer-1.jpg'
+import galley2 from '../../assets/images/gallery/footer-4.jpg'
 const Footer = () => {
     return (
         <footer className="bg-teal-900 text-white py-10">
@@ -61,14 +62,15 @@ const Footer = () => {
                     <h2 className="text-xl font-semibold mb-4">GALLERY</h2>
                     <div className="grid grid-cols-3 gap-2">
                      
-                        <img src="image1.jpg" alt="Gallery 1" className="w-full h-auto" />
-                        <img src="image2.jpg" alt="Gallery 2" className="w-full h-auto" />
-                        <img src="image3.jpg" alt="Gallery 3" className="w-full h-auto" />
-                        <img src="image4.jpg" alt="Gallery 4" className="w-full h-auto" />
-                        <img src="image5.jpg" alt="Gallery 5" className="w-full h-auto" />
-                        <img src="image6.jpg" alt="Gallery 6" className="w-full h-auto" />
-                        <img src="image7.jpg" alt="Gallery 7" className="w-full h-auto" />
-                        <img src="image8.jpg" alt="Gallery 8" className="w-full h-auto" />
+                        <img src={galley1} alt="Gallery 1" className="w-full h-auto" />
+                        <img src={galley2} alt="Gallery 1" className="w-full h-auto" />
+                        <img src={galley1} alt="Gallery 1" className="w-full h-auto" />
+                        <img src={galley2} alt="Gallery 1" className="w-full h-auto" />
+                        <img src={galley1} alt="Gallery 1" className="w-full h-auto" />
+                        <img src={galley2} alt="Gallery 1" className="w-full h-auto" />
+                        <img src={galley2} alt="Gallery 1" className="w-full h-auto" />
+                        <img src={galley1} alt="Gallery 1" className="w-full h-auto" />
+                        <img src={galley1} alt="Gallery 1" className="w-full h-auto" />
                     </div>
                 </div>
             </div>
